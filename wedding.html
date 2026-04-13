@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thiệp mời đám cưới</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff9f7;
+      --card: rgba(255,255,255,0.82);
+      --text: #3b2b2b;
+      --muted: #7d6161;
+      --primary: #b76e79;
+      --primary-dark: #9f5965;
+      --line: rgba(183,110,121,0.22);
+      --shadow: 0 20px 50px rgba(104, 67, 73, 0.12);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #ffe9ec 0%, transparent 28%),
+        radial-gradient(circle at top right, #fff1e8 0%, transparent 24%),
+        linear-gradient(180deg, #fffaf8 0%, #fff4f2 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 249, 247, 0.72);
+      border-bottom: 1px solid rgba(183,110,121,0.12);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .hero {
+      padding: 72px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(183,110,121,0.1);
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      line-height: 1.15;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 78px);
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 580px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      transition: 0.2s ease;
+      box-shadow: 0 12px 24px rgba(183,110,121,0.18);
+    }
+
+    .button:hover { transform: translateY(-1px); background: var(--primary-dark); }
+    .button.ghost {
+      background: transparent;
+      border-color: rgba(183,110,121,0.28);
+      color: var(--primary-dark);
+      box-shadow: none;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card, .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card {
+      padding: 18px;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 13px;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .stat-card span {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .hero-photo {
+      position: relative;
+      min-height: 560px;
+      border-radius: 32px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(66, 39, 44, 0.05), rgba(66, 39, 44, 0.18)),
+        url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80') center/cover;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(255,255,255,0.48);
+      border-radius: 24px;
+    }
+
+    .hero-badge {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      background: rgba(255,255,255,0.84);
+      border-radius: 22px;
+      padding: 18px 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-badge small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    section {
+      padding: 32px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 24px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      margin-bottom: 12px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .story-grid, .info-grid, .countdown-grid, .schedule-grid, .gallery-grid, .rsvp-grid, .footer-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .story-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .info-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .countdown-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .schedule-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .gallery-grid { grid-template-columns: 1.1fr 0.9fr 0.9fr; }
+    .rsvp-grid { grid-template-columns: 1fr 0.95fr; align-items: start; }
+    .footer-grid { grid-template-columns: 1fr auto; align-items: center; }
+
+    .card {
+      padding: 24px;
+    }
+
+    .card h3 {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .couple-names {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 52px);
+      margin: 10px 0 18px;
+    }
+
+    .heart {
+      color: var(--primary);
+      font-size: 28px;
+    }
+
+    .info-item h3, .schedule-item h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .info-item strong, .schedule-item strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--primary-dark);
+    }
+
+    .count-box {
+      text-align: center;
+      padding: 26px 18px;
+    }
+
+    .count-box .num {
+      display: block;
+      font-size: clamp(34px, 5vw, 54px);
+      font-family: 'Playfair Display', serif;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .count-box .label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 13px;
+    }
+
+    .schedule-item {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .schedule-item::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, #d18d97, #b76e79);
+      border-radius: 999px;
+    }
+
+    .schedule-item p { padding-left: 10px; }
+
+    .gallery-tall, .gallery-small {
+      min-height: 240px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .gallery-tall {
+      min-height: 520px;
+      background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80');
+    }
+
+    .gallery-small.one {
+      background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80');
+    }
+
+    .gallery-small.two {
+      background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80');
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid rgba(183,110,121,0.2);
+      background: rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--text);
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(183,110,121,0.12);
+    }
+
+    .rsvp-result {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(183,110,121,0.1);
+      color: var(--primary-dark);
+      font-weight: 500;
+      display: none;
+    }
+
+    .footer {
+      padding: 28px 0 42px;
+      color: var(--muted);
+    }
+
+    .footer .brand {
+      font-size: 30px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(183,110,121,0.25), transparent);
+      margin: 10px 0 0;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid,
+      .story-grid,
+      .info-grid,
+      .schedule-grid,
+      .gallery-grid,
+      .rsvp-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-photo { min-height: 420px; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 48px; }
+      .hero-meta,
+      .countdown-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .container { width: min(1120px, calc(100% - 20px)); }
+      .card { padding: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-meta,
+      .countdown-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <div class="brand">T & H</div>
+      <div class="nav-links">
+        <a href="#gioi-thieu">Giới thiệu</a>
+        <a href="#thong-tin">Thông tin</a>
+        <a href="#lich-trinh">Lịch trình</a>
+        <a href="#thu-vien">Khoảnh khắc</a>
+        <a href="#rsvp">RSVP</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Wedding Invitation</span>
+        <h1>Trân trọng kính mời bạn đến chung vui cùng chúng mình</h1>
+        <p>
+          Sự hiện diện của bạn là niềm hạnh phúc lớn nhất trong ngày đặc biệt của hai chúng mình.
+          Hãy cùng lưu giữ những khoảnh khắc ngọt ngào và đáng nhớ nhất.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="#rsvp">Xác nhận tham dự</a>
+          <a class="button ghost" href="#thong-tin">Xem thông tin lễ cưới</a>
+        </div>
+        <div class="hero-meta">
+          <div class="stat-card">
+            <strong>Ngày tổ chức</strong>
+            <span>20.12.2026</span>
+          </div>
+          <div class="stat-card">
+            <strong>Thời gian</strong>
+            <span>17:00 - 21:00</span>
+          </div>
+          <div class="stat-card">
+            <strong>Địa điểm</strong>
+            <span>TP. Hồ Chí Minh</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <div class="hero-badge">
+          <small>Save the date</small>
+          <strong>Chủ Nhật, ngày 20 tháng 12 năm 2026</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="gioi-thieu">
+    <div class="container">
+      <div class="section-head">
+        <h2>Chuyện chúng mình</h2>
+        <p>Một hành trình nhỏ bắt đầu bằng cuộc gặp gỡ giản dị, và giờ là lời hẹn ước đi cùng nhau trọn đời.</p>
+      </div>
+      <div class="card" style="text-align:center; padding: 34px 24px;">
+        <div class="couple-names">
+          <span>Tên Chú Rể</span>
+          <span class="heart">❤</span>
+          <span>Tên Cô Dâu</span>
+        </div>
+        <p style="max-width: 760px; margin: 0 auto;">
+          Từ những ngày đầu tiên gặp gỡ, chúng mình đã cùng nhau đi qua rất nhiều niềm vui, thử thách
+          và những cột mốc đáng nhớ. Ngày cưới là lúc tụi mình mong muốn được chia sẻ hạnh phúc ấy với gia đình,
+          bạn bè và những người thương quý nhất.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="thong-tin">
+    <div class="container">
+      <div class="section-head">
+        <h2>Thông tin buổi lễ</h2>
+        <p>Bạn có thể theo dõi nhanh thời gian, địa điểm và dress code ngay bên dưới.</p>
+      </div>
+      <div class="info-grid">
+        <div class="card info-item">
+          <strong>Thời gian</strong>
+          <h3>17:00 · 20/12/2026</h3>
+          <p>Đón khách từ 17:00. Nghi thức chính thức bắt đầu lúc 18:00.</p>
+        </div>
+        <div class="card info-item">
+          <strong>Địa điểm</strong>
+          <h3>White Palace</h3>
+          <p>194 Hoàng Văn Thụ, Phường 9, Phú Nhuận, TP. Hồ Chí Minh.</p>
+        </div>
+        <div class="card info-item">
+          <strong>Dress code</strong>
+          <h3>Elegant · Pastel</h3>
+          <p>Trang phục lịch sự với các tông màu nhẹ nhàng như kem, be, hồng phấn hoặc xanh nhạt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Đếm ngược đến ngày cưới</h2>
+        <p>Cùng đếm từng ngày đến khoảnh khắc chúng mình chính thức về chung một nhà.</p>
+      </div>
+      <div class="countdown-grid" id="countdown">
+        <div class="card count-box"><span class="num" id="days">0</span><span class="label">Ngày</span></div>
+        <div class="card count-box"><span class="num" id="hours">0</span><span class="label">Giờ</span></div>
+        <div class="card count-box"><span class="num" id="minutes">0</span><span class="label">Phút</span></div>
+        <div class="card count-box"><span class="num" id="seconds">0</span><span class="label">Giây</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="lich-trinh">
+    <div class="container">
+      <div class="section-head">
+        <h2>Lịch trình sự kiện</h2>
+        <p>Một buổi tối ấm cúng với những nghi thức trang trọng và thật nhiều niềm vui.</p>
+      </div>
+      <div class="schedule-grid">
+        <div class="card schedule-item">
+          <strong>17:00</strong>
+          <h3>Đón khách</h3>
+          <p>Khách mời check-in, chụp ảnh lưu niệm và dùng tiệc nhẹ tại sảnh.</p>
+        </div>
+        <div class="card schedule-item">
+          <strong>18:00</strong>
+          <h3>Nghi thức lễ cưới</h3>
+          <p>Nghi thức thành hôn, trao nhẫn và lời cảm ơn gửi đến gia đình hai bên.</p>
+        </div>
+        <div class="card schedule-item">
+          <strong>19:00</strong>
+          <h3>Tiệc tối & giao lưu</h3>
+          <p>Cùng dùng tiệc, nâng ly chúc mừng và tận hưởng những khoảnh khắc vui vẻ bên nhau.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="thu-vien">
+    <div class="container">
+      <div class="section-head">
+        <h2>Một vài khoảnh khắc</h2>
+        <p>Bạn có thể thay toàn bộ ảnh mẫu bằng ảnh cưới thật của hai bạn sau này.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-tall"></div>
+        <div class="gallery-small one"></div>
+        <div class="gallery-small two"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rsvp">
+    <div class="container">
+      <div class="section-head">
+        <h2>Xác nhận tham dự</h2>
+        <p>Vui lòng phản hồi trước ngày 10/12/2026 để chúng mình chuẩn bị đón tiếp chu đáo nhất.</p>
+      </div>
+      <div class="rsvp-grid">
+        <div class="card">
+          <h3>Gửi lời hồi đáp</h3>
+          <p style="margin-bottom: 18px;">Điền thông tin bên dưới để xác nhận tham dự. Dữ liệu sẽ được lưu tạm trên trình duyệt của bạn.</p>
+          <form id="rsvpForm" class="form-grid">
+            <div class="field">
+              <label for="guestName">Tên khách mời</label>
+              <input id="guestName" type="text" placeholder="Nhập họ và tên" required />
+            </div>
+            <div class="field">
+              <label for="guestCount">Số lượng tham dự</label>
+              <select id="guestCount">
+                <option value="1">1 người</option>
+                <option value="2">2 người</option>
+                <option value="3">3 người</option>
+                <option value="4">4 người</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="attendance">Trạng thái</label>
+              <select id="attendance">
+                <option value="Tham dự">Tham dự</option>
+                <option value="Chưa chắc">Chưa chắc</option>
+                <option value="Không tham dự">Không tham dự</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Lời nhắn</label>
+              <textarea id="message" placeholder="Gửi lời chúc đến cô dâu chú rể..."></textarea>
+            </div>
+            <button class="button" type="submit">Gửi xác nhận</button>
+          </form>
+          <div class="rsvp-result" id="rsvpResult"></div>
+        </div>
+        <div class="card">
+          <h3>Thông tin liên hệ</h3>
+          <p style="margin-bottom: 18px;">
+            Nếu cần hỗ trợ thêm về địa điểm, chỗ ngồi hoặc thời gian, vui lòng liên hệ trực tiếp với chúng mình.
+          </p>
+          <div class="form-grid">
+            <div class="card" style="padding:18px; box-shadow:none; background:rgba(183,110,121,0.06);">
+              <strong style="display:block; margin-bottom:8px; color:var(--primary-dark);">Nhà trai</strong>
+              <div>0901 234 567</div>
+              <div>chure@example.com</div>
+            </div>
+            <div class="card" style="padding:18px; box-shadow:none; background:rgba(183,110,121,0.06);">
+              <strong style="display:block; margin-bottom:8px; color:var(--primary-dark);">Nhà gái</strong>
+              <div>0908 888 999</div>
+              <div>codau@example.com</div>
+            </div>
+            <a class="button ghost" target="_blank" rel="noreferrer" href="https://maps.google.com/?q=White+Palace+Hoang+Van+Thu">Mở Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand">T & H</div>
+        <div>Rất mong được đón tiếp bạn trong ngày vui của chúng mình.</div>
+      </div>
+      <div>Made with love · 2026</div>
+    </div>
+  </footer>
+
+  <script>
+    const weddingDate = new Date('2026-12-20T17:00:00');
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = weddingDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('days').textContent = '0';
+        document.getElementById('hours').textContent = '0';
+        document.getElementById('minutes').textContent = '0';
+        document.getElementById('seconds').textContent = '0';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('days').textContent = days;
+      document.getElementById('hours').textContent = hours;
+      document.getElementById('minutes').textContent = minutes;
+      document.getElementById('seconds').textContent = seconds;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    const rsvpForm = document.getElementById('rsvpForm');
+    const rsvpResult = document.getElementById('rsvpResult');
+
+    rsvpForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const entry = {
+        name: document.getElementById('guestName').value.trim(),
+        count: document.getElementById('guestCount').value,
+        attendance: document.getElementById('attendance').value,
+        message: document.getElementById('message').value.trim(),
+        createdAt: new Date().toISOString()
+      };
+
+      // ====== THAY URL NÀY BẰNG GOOGLE APPS SCRIPT CỦA BẠN ======
+      const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbw9_naXgavP7SYLTTmBI-9O86OtWyHdeAgbToeR3sk4DZiVROb2-lGmN3ziO2Yc7C56UA/exec";
+
+      try {
+        await fetch(SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(entry)
+        });
+
+        rsvpResult.style.display = 'block';
+        rsvpResult.textContent = `Cảm ơn ${entry.name}! Đã gửi thông tin vào Google Sheet.`;
+        rsvpForm.reset();
+      } catch (err) {
+        rsvpResult.style.display = 'block';
+        rsvpResult.textContent = 'Có lỗi xảy ra khi gửi dữ liệu!';
+      }
+    });
+  </script>
+</body>
+</html>
