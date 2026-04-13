@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nhập danh sách khách mời</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 24px;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .guest-input-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .guest-input-item {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(220px, 1fr) 96px;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .guest-input-item input {
+      width: 100%;
+      min-width: 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    input, button {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      height: 44px;
+    }
+    input {
+      background: #fff;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      min-width: 0;
+    }
+    button.secondary { background: #475569; }
+    button.danger { background: #dc2626; }
+    .guest-input-item button {
+      padding: 11px 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      table-layout: fixed;
+    }
+    th, td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px 10px;
+      text-align: left;
+      font-size: 14px;
+      vertical-align: middle;
+      word-break: break-word;
+    }
+    th { background: #f9fafb; }
+    th:nth-child(1), td:nth-child(1) { width: 70px; text-align: center; }
+    th:nth-child(4), td:nth-child(4) { width: 90px; text-align: center; }
+    td button {
+      width: 72px;
+      height: 36px;
+      padding: 0;
+    }
+    .json-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 20px;
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+    .note {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+    @media (max-width: 700px) {
+      .container {
+        padding: 18px;
+      }
+      .guest-input-item {
+        grid-template-columns: 1fr;
+      }
+      .actions {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 520px) {
+      body {
+        padding: 14px;
+      }
+      .actions {
+        grid-template-columns: 1fr;
+      }
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Danh sách khách mời</h1>
+
+    <div class="note">
+      Nhập nhiều khách cùng lúc. Có thể thêm ghi chú cho từng người.
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Danh sách khách</label>
+        <div id="guestInputList" class="guest-input-list"></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button onclick="addGuestInput()">Thêm dòng</button>
+      <button onclick="saveAllGuests()">Lưu tất cả</button>
+      <button class="secondary" onclick="downloadJSON()">Tải JSON</button>
+      <button class="secondary" onclick="downloadCSV()">Tải CSV</button>
+      <button class="danger" onclick="clearAllGuests()">Xóa tất cả</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên</th>
+          <th>Ghi chú</th>
+          <th>Xóa</th>
+        </tr>
+      </thead>
+      <tbody id="guestTable"></tbody>
+    </table>
+
+    <div class="json-box" id="jsonOutput"></div>
+  </div>
+
+  <script>
+    let guests = JSON.parse(localStorage.getItem('guests') || '[]');
+
+    function saveGuests() {
+      localStorage.setItem('guests', JSON.stringify(guests));
+      renderGuests();
+    }
+
+    function addGuestInput(name = '', note = '') {
+      const div = document.createElement('div');
+      div.className = 'guest-input-item';
+      div.innerHTML = `
+        <input type="text" class="name" placeholder="Tên khách" value="${name}" />
+        <input type="text" class="note" placeholder="Ghi chú" value="${note}" />
+        <button class="danger" onclick="this.parentElement.remove()">Xóa</button>
+      `;
+      document.getElementById('guestInputList').appendChild(div);
+    }
+
+    function saveAllGuests() {
+      const rows = document.querySelectorAll('.guest-input-item');
+      const newGuests = [];
+
+      rows.forEach((row, i) => {
+        const name = row.querySelector('.name').value.trim();
+        const note = row.querySelector('.note').value.trim();
+
+        if (name) {
+          newGuests.push({
+            id: Date.now() + i,
+            name,
+            note,
+            createdAt: new Date().toISOString()
+          });
+        }
+      });
+
+      if (newGuests.length === 0) {
+        alert('Nhập ít nhất 1 tên');
+        return;
+      }
+
+      guests.push(...newGuests);
+      document.getElementById('guestInputList').innerHTML = '';
+      addGuestInput();
+      saveGuests();
+    }
+
+    function renderGuests() {
+      const table = document.getElementById('guestTable');
+      table.innerHTML = '';
+
+      guests.forEach((g, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${g.name}</td>
+          <td>${g.note || ''}</td>
+          <td><button class="danger" onclick="removeGuest(${g.id})">Xóa</button></td>
+        `;
+        table.appendChild(tr);
+      });
+
+      document.getElementById('jsonOutput').textContent = JSON.stringify(guests, null, 2);
+    }
+
+    function removeGuest(id) {
+      guests = guests.filter(g => g.id !== id);
+      saveGuests();
+    }
+
+    function clearAllGuests() {
+      if (!confirm('Xóa hết?')) return;
+      guests = [];
+      saveGuests();
+    }
+
+    function downloadJSON() {
+      const blob = new Blob([JSON.stringify(guests, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'guests.json';
+      a.click();
+    }
+
+    function downloadCSV() {
+      const headers = ['Tên', 'Ghi chú', 'Ngày'];
+      const rows = guests.map(g => [g.name, g.note, g.createdAt]);
+
+      const csv = [headers, ...rows]
+        .map(r => r.map(x => `"${x || ''}"`).join(','))
+        .join('\n');
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'guests.csv';
+      a.click();
+    }
+
+    addGuestInput();
+    renderGuests();
+  </script>
+</body>
+</html>
