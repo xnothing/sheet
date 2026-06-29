@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DuoPlay - Thuê Player Chơi Game Cùng Bạn</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ad292e",
+                        "primary-container": "#cf4244",
+                        "on-primary-container": "#fffbff",
+                        "surface": "#f8f9fb",
+                        "surface-container": "#edeef0",
+                        "surface-container-high": "#e7e8ea",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#59413f",
+                        "tertiary": "#4648d4",
+                        "tertiary-container": "#6063ee",
+                        "on-tertiary-container": "#fffbff",
+                        "outline-variant": "#e1bfbc",
+                        "success-green": "#4ade80",
+                        "favorite-red": "#f25b5b"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px"
+                    },
+                    fontFamily: {
+                        "label-md": ["Inter"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fb; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .chat-panel { 
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            transform: translateY(20px);
+            pointer-events: none;
+            opacity: 0;
+        }
+        .chat-panel.active { 
+            transform: translateY(0);
+            pointer-events: auto;
+            opacity: 1;
+        }
+        /* Global Chat Sidebar Styles */
+        .global-chat-drawer {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        .global-chat-drawer.open {
+            transform: translateX(0);
+        }
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-x-hidden">
+<!-- Header / TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-sm border-b border-surface-variant/10 h-20">
+<div class="flex justify-between items-center h-full px-4 md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-primary" id="mobile-menu-btn">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-display-lg text-[24px] md:text-display-lg font-black text-primary tracking-tighter">DuoPlay</div>
+</div>
+<!-- Desktop Nav Links - Only Round Icons -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white shadow-md shadow-primary/20" href="#" title="Trang chủ">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" href="#" title="Hot">
+<span class="material-symbols-outlined text-[24px]">whatshot</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" href="#" title="Trophy">
+<span class="material-symbols-outlined text-[24px]">trophy</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" href="#" title="Game">
+<span class="material-symbols-outlined text-[24px]">sports_esports</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" href="#" title="Ví">
+<span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 hidden sm:flex items-center justify-center rounded-full bg-surface-container hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="bg-primary text-white px-6 py-2 rounded-full font-bold hover:scale-105 active:scale-95 transition-all">
+                    Đăng nhập
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-24 pb-24 md:pb-8 max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<!-- Hero Banner Carousel -->
+<section class="relative w-full h-[180px] md:h-[320px] rounded-lg overflow-hidden mb-10 group">
+<div class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent z-10"></div>
+<div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAG2ehmRbpJvja8Ev-8KfCnQUNQn3BlgPDxGgbDqVa89iEZCE4niAYF-8BJaeDOhMYnhPlool39Z--hHSUCtKoNq3e2eSnCz36ebVJO2LwG5xQ7TZegDZ-_gFZ_AQG6Mz-J0xJfI6NwimPsy9lLY_GZoe9xv3ehnOYAGuJSC9JcOtcy51kIWweypa0JdKEl7Jovz5G0Ym-VDfIQc7rj4a4tAp9ze3znkMlYjaEFacv5YEbAZ5BoHCzoYlTKu_caP51htHy3b1CsCf0')">
+</div>
+<div class="relative z-20 h-full flex flex-col justify-center px-6 md:px-12 text-white">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-4 leading-tight">
+                    Thuê player <br/> chơi game cùng bạn
+                </h1>
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-bold w-fit transition-transform hover:scale-105 shadow-lg shadow-primary/30">
+                    Khám phá ngay
+                </button>
+</div>
+</section>
+<!-- Filters & Search -->
+<section class="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between">
+<div class="flex flex-wrap gap-2 no-scrollbar overflow-x-auto w-full md:w-auto">
+<button class="px-6 py-2 rounded-full bg-primary text-white font-label-md text-label-md whitespace-nowrap">Nữ</button>
+<button class="px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container transition-colors shadow-sm">Hot</button>
+<button class="px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container transition-colors shadow-sm">Sẵn sàng</button>
+<button class="px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container transition-colors shadow-sm">Online</button>
+</div>
+<div class="relative w-full md:w-80">
+<input class="w-full bg-white border-none rounded-full px-6 py-3 pl-12 shadow-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Tìm tên player..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary">search</span>
+</div>
+</section>
+<!-- Hot Players Carousel -->
+<section class="mb-12">
+<div class="flex justify-between items-end mb-6">
+<h2 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-2">🔥 Hot Player</h2>
+<a class="text-primary font-bold hover:underline" href="#">Xem tất cả</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 pb-4" id="hot-player-list">
+<div class="flex-shrink-0 w-[240px] bg-white rounded-lg p-3 shadow-sm border border-outline-variant/10 player-card-hover cursor-pointer group flex flex-col h-full hover:shadow-md transition-all">
+<div class="relative w-full aspect-square rounded-[18px] overflow-hidden mb-3">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgPHL5zgGwH8ppr-BVAayITQq6PnzxdgC3rJrQZiN9Ql5BcnBx052z9hjfEHVmEMq5WxzXnomehYXDoTYS0E5ithMiuidDKUIQry-u93fARkYloCvuQa9ZLX57nbQtBZ_hT5NH-ne8HDOZ5qwZD-a4_AAl8Ug22wHwaF-W3H9ckeeXXErWOVp6_ejKzmx8WtNjw1k1cNNqJUhtz3WIy8yeaJkzHUfGydrEfnZw5WwMyc5zkIawzpuCLsw9nWJIghk7pp2Jw8bYUsw"/>
+<span class="absolute top-2 left-2 bg-primary text-white text-[10px] px-2 py-0.5 rounded-full font-bold z-10">HOT</span>
+<span class="absolute top-2 right-2 bg-success-green text-white text-[10px] px-2 py-0.5 rounded-full font-bold z-10 shadow-sm">Sẵn sàng</span>
+<div class="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-2 left-3 text-white">
+<p class="font-bold text-sm truncate">Mèo Gaming</p>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center text-[12px] mb-1">
+<span class="text-secondary">Liên Quân</span>
+<span class="text-primary font-bold">100.000đ/h</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-0.5 text-yellow-500">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold text-on-surface">5</span>
+</div>
+<div class="text-[10px] text-secondary">
+<span class="font-medium">1200</span> lượt thuê
+                                </div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<button class="w-full py-2 rounded-full bg-primary text-white text-xs font-bold hover:bg-primary-container transition-all shadow-sm" onclick="openRentalModal(1)">Thuê ngay</button>
+<button class="w-full py-2 rounded-full border border-outline-variant text-secondary text-xs font-bold hover:bg-surface-container transition-all" onclick="viewProfile(1)">Xem hồ sơ</button>
+</div>
+</div>
+<!-- ... Other hot players ... -->
+</div>
+</section>
+<!-- Games Grid -->
+<section class="mb-12">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">Danh sách game</h2>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6" id="game-grid">
+<!-- Game cards rendered by JS -->
+</div>
+</section>
+<!-- Ready to Rent Marketplace -->
+<section class="mb-20">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">Player đang sẵn sàng thuê</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="marketplace-list">
+<!-- Marketplace cards rendered by JS -->
+</div>
+</section>
+</main>
+<!-- Floating Global Chat Trigger (Right Middle) - Desktop Only -->
+<div class="hidden md:flex fixed right-0 top-1/2 -translate-y-1/2 z-[55] flex-col items-center">
+<button class="relative group bg-gradient-to-b from-primary-container to-primary text-white px-3 py-6 rounded-l-2xl shadow-xl hover:translate-x-[-4px] transition-all flex flex-col items-center gap-3" id="global-chat-trigger">
+<span class="material-symbols-outlined text-[20px] rotate-[-90deg]">double_arrow</span>
+<span class="vertical-text font-bold text-[14px] tracking-wide whitespace-nowrap">Trò chuyện</span>
+<div class="flex flex-col items-center gap-1 mt-2">
+<div class="w-1.5 h-1.5 bg-success-green rounded-full"></div>
+<span class="text-[10px] font-medium opacity-90">4,702</span>
+</div>
+<!-- Tooltip or badge -->
+<div class="absolute -top-2 -left-2 w-5 h-5 bg-favorite-red text-[10px] flex items-center justify-center rounded-full border-2 border-white font-bold shadow-sm">4</div>
+</button>
+</div>
+<!-- Global Chat Drawer -->
+<div class="fixed inset-y-0 right-0 w-[360px] bg-white z-[100] shadow-2xl border-l border-outline-variant/20 global-chat-drawer hidden md:flex flex-col" id="global-chat-drawer">
+<!-- Header -->
+<div class="p-4 border-b border-outline-variant/10 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">forum</span>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Trò chuyện</h3>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 bg-success-green rounded-full"></span>
+<span class="text-[11px] text-secondary font-medium">4,702 đang trực tuyến</span>
+</div>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors text-secondary" id="close-global-chat">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Chat Content -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6 no-scrollbar bg-surface/50">
+<!-- Message Placeholder 1 -->
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-dim flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFqcbsMc4Iad1Wya8PYFvu37bXqnByGoGnn83G8InU8VlEQGMzebhQoUDvKZu6HZNcrriIfA5wapQaD24TJhil1A4iQSgZwkj-Zv1Z4zmXkwc1Ocb65UEj-v9uvRtj2N8LrsxBbMxRVOkI3U_P5tOMUWMj2dHYFo_ge-votqLhqKbrMtNyVZWoEClEmNSpMatwvtd2j-D_TQ8M2sh4uMqnZv_VLa3K70xbM7UZ6rjGQgeiL9QPmVuoYNAJdkqcZZEPm3f2FAIj79k"/>
+</div>
+<div class="max-w-[80%]">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-[13px]">Felix_VN</span>
+<span class="text-[10px] text-secondary">14:20</span>
+</div>
+<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-outline-variant/5 text-sm leading-relaxed">
+                    Có ai rảnh kéo rank Liên Quân không ạ? Em đang ở Kim Cương 1.
+                </div>
+</div>
+</div>
+<!-- Message Placeholder 2 -->
+<div class="flex gap-3 flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-primary flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpdHfs_xbiXESeF5fxIC7QM0at2t14_gbCVQmXbDZfCyb6dvzdxeaCIwdmpovSUrgQMOQ8f2K0M6mEQDqX_xmInIAis1HM51A2OmVVLOikBSsa8aRPj-w2tEeDbHypfTrb6Mc_-I-x-5hAQ3YVfhSWIDBtC1W6ap8nRR-WMB4wJS0HTZa-CI8Ycg8REBo03jT1PZsaZ9xqfpGajK_kjUJHT41-HBJi4VZK81wF-zyIh-QlX_i26HAiSlM2jDCnLMqfq3YWdqLPbMQ"/>
+</div>
+<div class="max-w-[80%]">
+<div class="flex items-baseline flex-row-reverse gap-2 mb-1">
+<span class="font-bold text-[13px] text-primary">Mèo Gaming</span>
+<span class="text-[10px] text-secondary">14:21</span>
+</div>
+<div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm leading-relaxed">
+                    Chào Felix nhé, bạn có thể xem hồ sơ mình nè, mình đang rảnh á!
+                </div>
+</div>
+</div>
+<!-- Message Placeholder 3 -->
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-dim flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZFfQU9C8UNcC_oXQttFuEe-bBYxsKF_Ie6zQsgVagLfhB_jIfirwq_iiOR3z9RwMaW_O9m0rLsWC29VJ6yIvSxEOILmGRQTxYfcBjwlwg1wcdMFla6RZDY5FmhnsPIwsjmhe7958-ZyIcamwqZ5KC35OSeR4xqRoqzEqzkfCY6bddgAyCDLrMRhbNqNtWIxqykEb8Z7B0E-qD1Ct6PbjSqlN5u6JIHvuTDlITJpStYbFiwTBkkZY-iUhMwCA1969BEbxWjyP_BMs"/>
+</div>
+<div class="max-w-[80%]">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-[13px]">Sói_Bạc</span>
+<span class="text-[10px] text-secondary">14:25</span>
+</div>
+<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-outline-variant/5 text-sm leading-relaxed">
+                    App dạo này xịn quá, tìm người chơi cùng nhanh thật.
+                </div>
+</div>
+</div>
+<div class="text-center my-4">
+<span class="text-[11px] text-secondary px-3 py-1 bg-surface-container rounded-full">Chào mừng bạn đến với kênh thế giới</span>
+</div>
+</div>
+<!-- Input Footer -->
+<div class="p-4 bg-white border-t border-outline-variant/10">
+<div class="flex items-center gap-2 bg-surface-container rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm outline-none" placeholder="Gửi tin nhắn..." type="text"/>
+<button class="text-primary p-1 hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+<footer class="bg-surface-container border-t border-outline-variant/10 pt-12 pb-24 md:pb-12">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+<div class="col-span-1 md:col-span-1">
+<div class="font-display-lg text-[24px] font-black text-primary tracking-tighter mb-4">DuoPlay</div>
+<p class="text-secondary text-sm leading-relaxed">
+                    Nền tảng kết nối người chơi game hàng đầu Việt Nam. Tìm kiếm đồng đội, thuê player kỹ năng cao và tận hưởng những giây phút giải trí tuyệt vời.
+                </p>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-4">Về DuoPlay</h4>
+<ul class="flex flex-col gap-2">
+<li class=""><a class="text-secondary text-sm hover:text-primary transition-colors" href="#">Về chúng tôi</a></li>
+<li class=""><a class="text-secondary text-sm hover:text-primary transition-colors" href="#">Điều khoản</a></li>
+<li class=""><a class="text-secondary text-sm hover:text-primary transition-colors" href="#">Chính sách bảo mật</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-4">Hỗ trợ</h4>
+<ul class="flex flex-col gap-2">
+<li class=""><a class="text-secondary text-sm hover:text-primary transition-colors" href="#">Liên hệ</a></li>
+<li class=""><a class="text-secondary text-sm hover:text-primary transition-colors" href="#">Hỗ trợ</a></li>
+<li class=""><a class="text-secondary text-sm hover:text-primary transition-colors" href="#">Hợp tác</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-4">Theo dõi chúng tôi</h4>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-secondary hover:bg-primary hover:text-white transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined">facebook</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-secondary hover:bg-primary hover:text-white transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined">smart_display</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-secondary hover:bg-primary hover:text-white transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined">video_library</span>
+</a>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-secondary text-xs">© 2024 DuoPlay. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="text-secondary text-xs">Tiếng Việt</span>
+<span class="text-secondary text-xs">VNĐ</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/95 backdrop-blur-lg shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-50 border-t border-outline-variant/10">
+<a class="flex flex-col items-center justify-center bg-primary-container/10 text-primary rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-[10px]">Trang chủ</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary" href="#">
+<span class="material-symbols-outlined">sports_esports</span>
+<span class="font-label-sm text-[10px]">Game</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary" href="#">
+<span class="material-symbols-outlined">whatshot</span>
+<span class="font-label-sm text-[10px]">Hot</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-sm text-[10px]">Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px]">Tôi</span>
+</a>
+</nav>
+<!-- Rental Modal -->
+<div class="fixed inset-0 z-[110] hidden items-center justify-center p-4" id="rental-modal">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="modal-overlay"></div>
+<div class="relative bg-white w-full max-w-md rounded-lg p-8 shadow-xl animate-in fade-in zoom-in duration-300">
+<h3 class="text-2xl font-bold mb-6">Xác nhận thuê Player</h3>
+<div class="flex items-center gap-4 mb-6 p-4 bg-surface-container rounded-lg" id="modal-player-info">
+<!-- Dynamic Info -->
+</div>
+<div class="mb-6">
+<label class="block text-sm font-bold mb-2">Chọn thời gian thuê</label>
+<div class="grid grid-cols-3 gap-3">
+<button class="time-btn border-2 border-primary bg-primary/10 text-primary py-3 rounded-lg font-bold transition-all">1 Giờ</button>
+<button class="time-btn border-2 border-outline-variant py-3 rounded-lg font-bold hover:bg-surface-container transition-colors transition-all">2 Giờ</button>
+<button class="time-btn border-2 border-outline-variant py-3 rounded-lg font-bold hover:bg-surface-container transition-colors transition-all">3 Giờ</button>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 py-3 rounded-full border border-outline-variant font-bold hover:bg-surface-container transition-colors" id="close-modal">Hủy</button>
+<button class="flex-1 py-3 rounded-full bg-primary text-white font-bold hover:scale-105 active:scale-95 transition-all shadow-md">Xác nhận thuê</button>
+</div>
+</div>
+</div>
+<script>
+        const players = [
+            { id: 1, name: "Mèo Gaming", gender: "Nữ", hot: true, online: true, status: "Sẵn sàng", price: "100.000", rating: 5.0, rentals: 1200, game: "Liên Quân", rank: "Cao Thủ", tags: ["Voice", "Leo rank"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mèo", favorite: false },
+            { id: 2, name: "Linh Duo", gender: "Nữ", hot: true, online: true, status: "Online", price: "80.000", rating: 4.9, rentals: 850, game: "Valorant", rank: "Ascendant", tags: ["Vui vẻ", "Hỗ trợ"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Linh", favorite: false },
+            { id: 3, name: "Bé Thỏ", gender: "Nữ", hot: true, online: true, status: "Sẵn sàng", price: "120.000", rating: 5.0, rentals: 2100, game: "Free Fire", rank: "Huyền Thoại", tags: ["Gánh team", "Voice"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Thỏ", favorite: false },
+            { id: 4, name: "Mina Chill", gender: "Nữ", hot: true, online: false, status: "Chờ khách", price: "90.000", rating: 4.8, rentals: 560, game: "Liên Minh", rank: "Kim Cương", tags: ["Nói chuyện", "Dễ thương"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mina", favorite: false },
+            { id: 5, name: "Ngọc Dâu", gender: "Nữ", hot: false, online: true, status: "Sẵn sàng", price: "70.000", rating: 4.7, rentals: 430, game: "TFT", rank: "Thách Đấu", tags: ["Học thuật", "Bình tĩnh"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ngọc", favorite: false },
+            { id: 6, name: "Bé Mon", gender: "Nữ", hot: false, online: true, status: "Online", price: "150.000", rating: 5.0, rentals: 3400, game: "Genshin", rank: "AR 60", tags: ["Nhiệt tình", "Gánh phó bản"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mon", favorite: false },
+            { id: 7, name: "Annie Rank", gender: "Nữ", hot: false, online: true, status: "Sẵn sàng", price: "110.000", rating: 4.9, rentals: 1100, game: "PUBG Mobile", rank: "Chí Tôn", tags: ["Voice", "Leo rank"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Annie", favorite: false },
+            { id: 8, name: "Sói Đêm", gender: "Nam", hot: false, online: true, status: "Đang được thuê", price: "200.000", rating: 5.0, rentals: 5200, game: "CS2", rank: "Global", tags: ["Gánh team", "Tryhard"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sói", favorite: false },
+            { id: 9, name: "Ken Pro", gender: "Nam", hot: false, online: false, status: "Bận", price: "150.000", rating: 4.9, rentals: 980, game: "Roblox", rank: "Vip", tags: ["Vui vẻ", "Xây dựng"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ken", favorite: false },
+            { id: 10, name: "Nam TryHard", gender: "Nam", hot: true, online: true, status: "Sẵn sàng", price: "130.000", rating: 5.0, rentals: 1500, game: "Mobile Legends", rank: "Mythic", tags: ["Chuyên nghiệp"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nam", favorite: false },
+            { id: 11, name: "Bae Milk", gender: "Nữ", hot: true, online: true, status: "Sẵn sàng", price: "100.000", rating: 4.9, rentals: 800, game: "Valorant", rank: "Immortal", tags: ["Voice", "Nữ tính"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Milk", favorite: false },
+            { id: 12, name: "No Sweet", gender: "Nữ", hot: false, online: true, status: "Online", price: "85.000", rating: 4.8, rentals: 300, game: "Liên Quân", rank: "Tinh Anh", tags: ["Voice"], avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sweet", favorite: false }
+        ];
+
+        const games = [
+            { name: "Liên Quân", players: 1200 },
+            { name: "Free Fire", players: 850 },
+            { name: "Valorant", players: 1500 },
+            { name: "PUBG Mobile", players: 920 },
+            { name: "Liên Minh", players: 2100 },
+            { name: "Roblox", players: 450 },
+            { name: "CS2", players: 670 },
+            { name: "Genshin", players: 1100 },
+            { name: "TFT", players: 890 },
+            { name: "Mobile Legends", players: 540 }
+        ];
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 'Sẵn sàng': return 'bg-success-green';
+                case 'Online': return 'bg-blue-500';
+                case 'Đang được thuê': return 'bg-orange-500';
+                case 'Bận': return 'bg-gray-500';
+                default: return 'bg-gray-400';
+            }
+        }
+
+        // Render Hot Players
+        function renderHotPlayers() {
+            const hotPlayerContainer = document.getElementById('hot-player-list');
+            if (!hotPlayerContainer) return;
+            hotPlayerContainer.innerHTML = '';
+            players.filter(p => p.hot).forEach(player => {
+                const statusColor = getStatusClass(player.status);
+                const card = `
+                    <div class="flex-shrink-0 w-[240px] bg-white rounded-lg p-3 shadow-sm border border-outline-variant/10 player-card-hover cursor-pointer group flex flex-col h-full hover:shadow-md transition-all">
+                        <div class="relative w-full aspect-square rounded-[18px] overflow-hidden mb-3">
+                            <img src="${player.avatar}" class="w-full h-full object-cover transition-transform group-hover:scale-105">
+                            <span class="absolute top-2 left-2 bg-primary text-white text-[10px] px-2 py-0.5 rounded-full font-bold z-10">HOT</span>
+                            <span class="absolute top-2 right-2 ${statusColor} text-white text-[10px] px-2 py-0.5 rounded-full font-bold z-10 shadow-sm">${player.status}</span>
+                            <div class="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-2 left-3 text-white">
+                                <p class="font-bold text-sm truncate">${player.name}</p>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center text-[12px] mb-1">
+                                <span class="text-secondary">${player.game}</span>
+                                <span class="text-primary font-bold">${player.price}đ/h</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-0.5 text-yellow-500">
+                                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="text-xs font-bold text-on-surface">${player.rating}</span>
+                                </div>
+                                <div class="text-[10px] text-secondary">
+                                    <span class="font-medium">${player.rentals}</span> lượt thuê
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <button onclick="openRentalModal(${player.id})" class="w-full py-2 rounded-full bg-primary text-white text-xs font-bold hover:bg-primary-container transition-all shadow-sm">Thuê ngay</button>
+                            <button onclick="viewProfile(${player.id})" class="w-full py-2 rounded-full border border-outline-variant text-secondary text-xs font-bold hover:bg-surface-container transition-all">Xem hồ sơ</button>
+                        </div>
+                    </div>
+                `;
+                hotPlayerContainer.innerHTML += card;
+            });
+        }
+
+        // Render Games
+        function renderGames() {
+            const gameGrid = document.getElementById('game-grid');
+            if (!gameGrid) return;
+            gameGrid.innerHTML = '';
+            games.forEach(game => {
+                const card = `
+                    <div class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-outline-variant/5">
+                        <div class="w-full aspect-square bg-surface-container rounded-lg mb-3 overflow-hidden">
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/30 text-primary font-black text-xl">
+                                ${game.name.substring(0,2).toUpperCase()}
+                            </div>
+                        </div>
+                        <p class="font-bold text-sm mb-1">${game.name}</p>
+                        <p class="text-xs text-secondary mb-3">${game.players} players</p>
+                        <button class="w-full py-2 rounded-full border border-primary text-primary text-xs font-bold hover:bg-primary hover:text-white transition-all">Xem player</button>
+                    </div>
+                `;
+                gameGrid.innerHTML += card;
+            });
+        }
+
+        // Render Marketplace Players
+        function renderMarketplace(list) {
+            const container = document.getElementById('marketplace-list');
+            if (!container) return;
+            container.innerHTML = '';
+            list.forEach(player => {
+                const statusColor = getStatusClass(player.status);
+                const favFill = player.favorite ? 1 : 0;
+                const favColor = player.favorite ? 'text-favorite-red' : 'text-secondary';
+                
+                const card = `
+                    <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all group border border-outline-variant/5">
+                        <div class="relative h-28 bg-gradient-to-r from-primary-container to-tertiary-container overflow-hidden">
+                            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+                            <span class="absolute top-2 left-2 bg-primary text-white text-[10px] px-2 py-0.5 rounded-full font-bold z-10 ${player.hot ? '' : 'hidden'}">HOT</span>
+                            <span class="absolute top-2 right-2 ${statusColor} text-white text-[10px] px-2 py-0.5 rounded-full font-bold z-10">${player.status}</span>
+                            <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-md backdrop-blur-md font-bold">${player.price}đ/h</span>
+                        </div>
+                        <div class="px-4 pb-4 pt-10 relative">
+                            <div class="absolute -top-10 left-4 w-20 h-20 rounded-full border-4 border-white bg-white overflow-hidden shadow-md">
+                                <img src="${player.avatar}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 class="font-bold text-base group-hover:text-primary transition-colors">${player.name}</h3>
+                                    <p class="text-xs text-secondary">${player.game} • Rank ${player.rank}</p>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <div class="flex items-center gap-0.5 text-yellow-500">
+                                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                        <span class="text-xs font-bold text-on-surface">${player.rating}</span>
+                                    </div>
+                                    <span class="text-[10px] text-secondary mt-0.5">${player.rentals} lượt</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-1 mb-4">
+                                ${player.tags.map(t => `<span class="px-2 py-0.5 bg-surface-container rounded-full text-[10px] text-secondary font-medium">${t}</span>`).join('')}
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openRentalModal(${player.id})" class="flex-1 py-2.5 rounded-full bg-primary text-white font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md shadow-primary/20">
+                                    Thuê ngay
+                                </button>
+                                <button onclick="toggleFavorite(${player.id})" class="p-2.5 rounded-full border border-outline-variant flex items-center justify-center transition-all hover:bg-surface-container-high group/fav">
+                                    <span class="material-symbols-outlined text-xl ${favColor} transition-colors" style="font-variation-settings: 'FILL' ${favFill};">favorite</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Global Chat Drawer Logic
+        const globalChatTrigger = document.getElementById('global-chat-trigger');
+        const globalChatDrawer = document.getElementById('global-chat-drawer');
+        const closeGlobalChat = document.getElementById('close-global-chat');
+
+        globalChatTrigger?.addEventListener('click', () => {
+            globalChatDrawer.classList.remove('hidden');
+            // Small timeout to allow the transition to trigger after display: block
+            setTimeout(() => {
+                globalChatDrawer.classList.add('open');
+            }, 10);
+        });
+
+        closeGlobalChat?.addEventListener('click', () => {
+            globalChatDrawer.classList.remove('open');
+            setTimeout(() => {
+                globalChatDrawer.classList.add('hidden');
+            }, 400); // Match transition duration
+        });
+
+        // Close drawer when clicking outside
+        window.addEventListener('click', (e) => {
+            if (globalChatDrawer && globalChatDrawer.classList.contains('open')) {
+                if (!globalChatDrawer.contains(e.target) && !globalChatTrigger.contains(e.target)) {
+                    globalChatDrawer.classList.remove('open');
+                    setTimeout(() => {
+                        globalChatDrawer.classList.add('hidden');
+                    }, 400);
+                }
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('rental-modal');
+        const overlay = document.getElementById('modal-overlay');
+        const closeBtn = document.getElementById('close-modal');
+
+        window.openRentalModal = function(id) {
+            const player = players.find(p => p.id === id);
+            const infoDiv = document.getElementById('modal-player-info');
+            if (infoDiv && player) {
+                infoDiv.innerHTML = `
+                    <img src="${player.avatar}" class="w-16 h-16 rounded-full border-2 border-primary/20">
+                    <div>
+                        <p class="font-bold text-lg">${player.name}</p>
+                        <p class="text-secondary text-sm">${player.game} • ${player.price}đ/h</p>
+                    </div>
+                `;
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        overlay?.addEventListener('click', closeModal);
+        closeBtn?.addEventListener('click', closeModal);
+
+        // Favorite Toggle Logic
+        window.toggleFavorite = function(id) {
+            const playerIndex = players.findIndex(p => p.id === id);
+            if (playerIndex !== -1) {
+                players[playerIndex].favorite = !players[playerIndex].favorite;
+                renderMarketplace(players);
+            }
+        }
+
+        window.viewProfile = function(id) {
+            console.log(`Xem hồ sơ player ID: ${id}`);
+        }
+
+        // Time Selection Logic
+        const timeBtns = document.querySelectorAll('.time-btn');
+        timeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                timeBtns.forEach(b => {
+                    b.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+                    b.classList.add('border-outline-variant');
+                });
+                btn.classList.add('border-primary', 'bg-primary/10', 'text-primary');
+                btn.classList.remove('border-outline-variant');
+            });
+        });
+
+        // Simple Search
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput?.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = players.filter(p => p.name.toLowerCase().includes(term) || p.game.toLowerCase().includes(term));
+            renderMarketplace(filtered);
+        });
+
+        // Initial Render
+        renderHotPlayers();
+        renderGames();
+        renderMarketplace(players);
+    </script>
+</body></html>
