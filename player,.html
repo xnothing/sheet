@@ -1,0 +1,1135 @@
+<!DOCTYPE html><html class="light" lang="vi" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>DuoPlay - Social Gaming &amp; Player Renting</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#f25b5b",
+                        "secondary": "#0060ac",
+                        "background": "#f6f7f9",
+                        "surface": "#ffffff",
+                        "on-surface-variant": "#59413f",
+                        "outline-variant": "#e1bfbc",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#edeef0",
+                        "surface-container-high": "#e7e8ea",
+                        "primary-container": "#f25b5b",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "20px",
+                        "3xl": "24px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "20px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "xl": "64px",
+                        "sm": "12px",
+                        "md": "24px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Montserrat", "sans-serif"],
+                        "body": ["Montserrat", "sans-serif"],
+                        "label": ["Montserrat", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #f6f7f9; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .player-card:hover { transform: translateY(-8px); box-shadow: 0px 20px 40px rgba(0,0,0, 0.08); }
+        .scrim-gradient { background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-[60] bg-surface-container-lowest shadow-sm h-16 flex items-center">
+<div class="flex justify-between items-center w-full px-gutter max-w-[1280px] mx-auto h-full">
+<div class="font-headline-md text-headline-md font-bold text-primary cursor-pointer">DuoPlay</div>
+<nav class="hidden md:flex items-center space-x-4">
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">play_circle</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">emoji_events</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">public</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden md:block font-label-md text-label-md px-6 py-2 rounded-full border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Đăng nhập</button>
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-gutter pb-24 md:pb-12">
+<!-- Banner Carousel -->
+<section class="mt-md">
+<div class="relative h-[300px] md:h-[360px] w-full rounded-3xl overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAs0RvJaCF1YPUSTTdnxb3699Ck7TS9MorIETvLASJyNiBQq57SDidomDiiVJ9puAs_TLd5PWxvmTfRnEHicY7PZCDtqjY6kCv3VYi6RqXFA61O1gGVzl8E8esYPmPPw_P_KB_o7IVHvgecC2malG8E3Z9gpS1jxJWBizdl6HXxG_4eIT3LPnDT7nLjFmCMEl_87u-fYHLiXg_WEkYy5NFjsyRWe1wVH4bRyQClJNfYK1nMWsP0mvOdgsEJZkqzp9WJXQNLKtSGm_p_')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center px-12">
+<div class="max-w-md">
+<h1 class="text-white font-headline-lg text-headline-lg mb-4">Level Up Your Game Together</h1>
+<p class="text-white/80 font-body-md text-body-md mb-6">Kết nối với những người chơi xuất sắc nhất. Thuê đồng đội, leo rank và tận hưởng những giây phút giải trí tuyệt vời.</p>
+<button class="bg-primary text-white px-8 py-3 rounded-full font-bold shadow-lg hover:brightness-110 transition-all active:scale-95">Khám phá ngay</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Hot Player Carousel -->
+<section class="mt-lg">
+<div class="flex justify-between items-end mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Hot Players</h2>
+<p class="text-on-surface-variant font-label-sm text-label-sm">Đang dẫn đầu xu hướng tuần này</p>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-white transition-colors" onclick="scrollCarousel('hot-carousel', -400)">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-white transition-colors" onclick="scrollCarousel('hot-carousel', 400)">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex gap-md overflow-x-auto no-scrollbar scroll-smooth py-4 px-1 -mx-1" id="hot-carousel">
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Mèo Gaming">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Hot
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Mèo Gaming</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">League of Legends • Cao Thủ</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">50.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.8
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Voice</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Chill</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(1)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Linh Duo">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Sẵn sàng
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Linh Duo</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">Valorant • Master</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">45.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.9
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Gánh team</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Vui vẻ</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(2)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Bé Thỏ">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 text-gray-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+                            Bận
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Bé Thỏ</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">Liên Quân Mobile • Kim Cương</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">30.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.7
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Support</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Cute</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(3)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Mina Chill">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-orange-100 text-orange-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Đang được thuê
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Mina Chill</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">PUBG Mobile • Chí Tôn</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">40.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.6
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Chill</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Mic on</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(4)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Ngọc Dâu">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Sẵn sàng
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Ngọc Dâu</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">Teamfight Tactics • Cao Thủ</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">35.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.8
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Học thuật</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Cờ thủ</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(5)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Bé Mon">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Sẵn sàng
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Bé Mon</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">Valorant • Diamond</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">50.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                5
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Aim bot</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Nghiêm túc</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(6)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Annie Rank">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Hot
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Annie Rank</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">League of Legends • Thách Đấu</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">70.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.9
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Pro</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Carry</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(7)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Sói Đêm">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Sẵn sàng
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Sói Đêm</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">CS2 • Global Elite</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">55.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.7
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Try hard</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Nghiêm túc</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(8)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Ken Pro">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Sẵn sàng
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Ken Pro</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">Valorant • Radiant</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">80.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.9
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Radiant</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Gánh team</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(9)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Nam TryHard">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 text-gray-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+                            Bận
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Nam TryHard</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">LoL • Master</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">40.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.5
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Top lane</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(10)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Bae Milk">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-500 rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Sẵn sàng
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">Bae Milk</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">Genshin Impact • AR 60</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">30.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.8
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Exploration</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Chill</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(11)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="No Sweet">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            Hot
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">No Sweet</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">Arena of Valor • Chiến Tướng</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">45.000đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                4.9
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            <span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Jungle</span><span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Fast hand</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(12)" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</section>
+<!-- Filter Bar -->
+<section class="mt-lg sticky top-16 z-50 bg-background/80 backdrop-blur-md py-4">
+<div class="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+<button class="filter-btn flex-none px-5 py-2 rounded-full border border-outline-variant text-on-surface-variant font-semibold hover:border-primary hover:text-primary transition-all text-label-sm" onclick="filterBy('gender', 'Nữ')">Nữ</button>
+<button class="filter-btn flex-none px-5 py-2 rounded-full bg-primary text-white font-bold shadow-md shadow-primary/20 text-label-sm" onclick="filterBy('status', 'Hot')">Hot</button>
+<button class="filter-btn flex-none px-5 py-2 rounded-full border border-outline-variant text-on-surface-variant font-semibold hover:border-primary hover:text-primary transition-all text-label-sm" onclick="filterBy('status', 'Sẵn sàng')">Sẵn sàng</button>
+<button class="filter-btn flex-none px-5 py-2 rounded-full border border-outline-variant text-on-surface-variant font-semibold hover:border-primary hover:text-primary transition-all text-label-sm" onclick="filterBy('online', true)">Online</button>
+<button class="flex-none px-5 py-2 rounded-full bg-white border border-outline-variant text-on-surface-variant font-semibold hover:border-primary hover:text-primary transition-all text-label-sm flex items-center gap-1">Khoảng giá <span class="material-symbols-outlined text-[16px]">expand_more</span></button>
+<div class="flex-grow flex gap-2 ml-auto min-w-[200px]">
+<div class="flex-grow relative">
+<input class="w-full h-10 bg-white border-none rounded-full px-5 text-sm focus:ring-2 focus:ring-primary/30" id="searchInput" placeholder="Tên Player, game..." type="text">
+</div>
+<button class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white shadow-lg shadow-primary/30 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Ready Player Grid Section -->
+<section class="mt-lg">
+<div class="flex justify-between items-end mb-md"><div><h2 class="font-headline-md text-headline-md">Player đang sẵn sàng thuê</h2><p class="text-on-surface-variant font-label-sm text-label-sm">Chọn player online và bắt đầu chơi cùng ngay</p></div><a href="#" class="text-primary font-bold text-label-md hover:underline">Xem tất cả</a></div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md" id="ready-grid"><!-- Player 1 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">50.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Mèo Gaming</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">League of Legends • Cao Thủ</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.8 
+                    <span class="text-on-surface-variant font-normal ml-1">(325 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 1 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Voice</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Chill</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 2 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">45.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Linh Duo</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">Valorant • Master</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.9 
+                    <span class="text-on-surface-variant font-normal ml-1">(420 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 2 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Gánh team</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Vui vẻ</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 5 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">35.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Ngọc Dâu</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">Teamfight Tactics • Cao Thủ</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.8 
+                    <span class="text-on-surface-variant font-normal ml-1">(190 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 3 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Học thuật</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Cờ thủ</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 6 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">50.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Bé Mon</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">Valorant • Diamond</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 5.0 
+                    <span class="text-on-surface-variant font-normal ml-1">(95 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 1 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Aim bot</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Nghiêm túc</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 7 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">70.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Annie Rank</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">League of Legends • Thách Đấu</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.9 
+                    <span class="text-on-surface-variant font-normal ml-1">(512 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 1 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Pro</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Carry</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 8 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">55.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Sói Đêm</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">CS2 • Global Elite</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.7 
+                    <span class="text-on-surface-variant font-normal ml-1">(310 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 4 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Try hard</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Nghiêm túc</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 9 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">80.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Ken Pro</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">Valorant • Radiant</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.9 
+                    <span class="text-on-surface-variant font-normal ml-1">(245 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 2 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Radiant</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Gánh team</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 11 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">30.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">Bae Milk</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">Genshin Impact • AR 60</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.8 
+                    <span class="text-on-surface-variant font-normal ml-1">(88 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 2 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Exploration</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Chill</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Player 12 -->
+<div class="bg-white rounded-[22px] overflow-hidden shadow-sm border border-outline-variant/20 hover:shadow-md transition-all group flex flex-col h-full">
+    <div class="relative h-[100px] w-full overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full">Sẵn sàng thuê</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold rounded-lg">45.000đ/giờ</div>
+    </div>
+    <div class="px-4 pb-4 pt-0 flex-grow relative">
+        <div class="absolute -top-6 left-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p" class="w-12 h-12 rounded-full border-2 border-white object-cover shadow-sm">
+        </div>
+        <div class="mt-8">
+            <div class="flex items-center gap-1.5 mb-0.5">
+                <h4 class="font-bold text-sm truncate">No Sweet</h4>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant font-medium">Arena of Valor • Chiến Tướng</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                    <span class="material-symbols-outlined text-[14px]">star</span> 4.9 
+                    <span class="text-on-surface-variant font-normal ml-1">(420 thuê)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">Phản hồi 1 phút</span>
+            </div>
+            <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Jungle</span>
+                <span class="px-1.5 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">Fast hand</span>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="flex-grow py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all">Thuê ngay</button>
+                <button class="p-2 bg-surface-container text-on-surface-variant rounded-xl hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div></div>
+<div class="mt-xl flex justify-center">
+<button class="px-12 py-4 bg-white rounded-full font-bold shadow-md border border-outline-variant hover:bg-primary hover:text-white transition-all active:scale-95">Xem thêm Player</button>
+</div>
+</section>
+</main>
+<!-- SideNavBar -->
+<aside class="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 z-[100] flex-col items-center gap-0 group">
+<div class="bg-primary text-on-primary w-12 py-8 rounded-l-2xl shadow-xl flex flex-col items-center cursor-pointer transition-all hover:w-16 active:translate-x-1">
+<span class="material-symbols-outlined text-2xl mb-2">chat</span>
+<div class="[writing-mode:vertical-lr] font-bold text-xs tracking-widest uppercase">Trò Chuyện</div>
+</div>
+</aside>
+<!-- Booking Modal -->
+<div class="fixed inset-0 z-[100] hidden" id="bookingModal">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeBookingModal()"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+<div id="modalContent"></div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-low mt-xl border-t border-outline-variant pb-24 md:pb-0">
+<div class="w-full py-xl px-gutter max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="max-w-sm">
+<div class="font-headline-md text-headline-md font-bold text-primary mb-4">DuoPlay</div>
+<p class="text-on-surface-variant text-body-md">Nền tảng kết nối game thủ hàng đầu Việt Nam. Nơi bạn tìm thấy những người đồng đội chất lượng nhất cho mọi trận đấu.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div>
+<h4 class="font-bold mb-4 text-on-surface">Về chúng tôi</h4>
+<ul class="space-y-2 text-on-surface-variant text-sm">
+<li class=""><a class="hover:text-primary transition-colors" href="#">Giới thiệu</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">Điều khoản</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-on-surface">Hỗ trợ</h4>
+<ul class="space-y-2 text-on-surface-variant text-sm">
+<li class=""><a class="hover:text-primary transition-colors" href="#">Trung tâm trợ giúp</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">Liên hệ</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="w-full py-6 text-center border-t border-outline-variant/30 text-on-surface-variant text-sm">
+        © 2024 DuoPlay Social Gaming. All rights reserved.
+    </div>
+</footer>
+<!-- BottomNavBar Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface-container-lowest shadow-lg rounded-t-2xl border-t border-outline-variant">
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-full px-4 py-1 active:scale-90 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1">
+<span class="material-symbols-outlined">search</span>
+<span class="text-[10px] font-bold">Search</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1">
+<span class="material-symbols-outlined">local_fire_department</span>
+<span class="text-[10px] font-bold">Hot</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-[10px] font-bold">Wallet</span>
+</button>
+</nav>
+<script>
+    const players = [
+        { id: 1, name: "Mèo Gaming", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p", cover: "https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p", game: "League of Legends", rank: "Cao Thủ", price: "50.000", rating: 4.8, rentals: 325, views: "1.2k", responseTime: "1 phút", status: "Hot", online: true, gender: "Nữ", tags: ["Voice", "Chill"] },
+        { id: 2, name: "Linh Duo", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC", cover: "https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC", game: "Valorant", rank: "Master", price: "45.000", rating: 4.9, rentals: 420, views: "3.5k", responseTime: "2 phút", status: "Sẵn sàng", online: true, gender: "Nữ", tags: ["Gánh team", "Vui vẻ"] },
+        { id: 3, name: "Bé Thỏ", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc", cover: "https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc", game: "Liên Quân Mobile", rank: "Kim Cương", price: "30.000", rating: 4.7, rentals: 150, views: "850", responseTime: "5 phút", status: "Bận", online: false, gender: "Nữ", tags: ["Support", "Cute"] },
+        { id: 4, name: "Mina Chill", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A", cover: "https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A", game: "PUBG Mobile", rank: "Chí Tôn", price: "40.000", rating: 4.6, rentals: 280, views: "2.1k", responseTime: "1 phút", status: "Đang được thuê", online: true, gender: "Nữ", tags: ["Chill", "Mic on"] },
+        { id: 5, name: "Ngọc Dâu", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p", cover: "https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p", game: "Teamfight Tactics", rank: "Cao Thủ", price: "35.000", rating: 4.8, rentals: 190, views: "1.8k", responseTime: "3 phút", status: "Sẵn sàng", online: true, gender: "Nữ", tags: ["Học thuật", "Cờ thủ"] },
+        { id: 6, name: "Bé Mon", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC", cover: "https://lh3.googleusercontent.com/aida/AP1WRLsJYypABmUPneANNBtz1uNALTXLNqyM6GP_sFnc8X4w5mdXhX_Lqcq-eoT1iMMtVaj6GivBVEaWdb1ClkeMspTDxEKw0KquJBkwY_HcpwfPFYPby4XKuUl1KsCsipdf84S55ud_gijajx4aSZansFoj5aqEsS8v6p-Oz4DkSOUauDT7a47BpjqIvLCADrm61XqOTiOg9BrYVlBMi_f-ywd_XYeenv00wjmSUcLAIETIz6QyVlelJi_hd3eC", game: "Valorant", rank: "Diamond", price: "50.000", rating: 5.0, rentals: 95, views: "900", responseTime: "1 phút", status: "Sẵn sàng", online: true, gender: "Nữ", tags: ["Aim bot", "Nghiêm túc"] },
+        { id: 7, name: "Annie Rank", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A", cover: "https://lh3.googleusercontent.com/aida/AP1WRLvjNyJ02_GwV9jxoB8GOuEskvcPhrpsUQMsRgVjkY8Q5FFXt0r7ydyE1vl5CyEVgvQ1NpmMWLg_pjWhl072enDJYSMKMta8hjL8UOTdh9V2py6mffUKSxRFa89zwpQeNt9pqad2wgaKFSzAJ-Kd_IA59HeaGBexghAxw4nwO4AEnEYHwliH25TCNXgJW2Q8SOJVikk3HSYD-bFZ4_7DJZmeKrtZbsI14Ji854589GFl91bhKqLRPnPsG7A", game: "League of Legends", rank: "Thách Đấu", price: "70.000", rating: 4.9, rentals: 512, views: "5.2k", responseTime: "1 phút", status: "Hot", online: true, gender: "Nữ", tags: ["Pro", "Carry"] },
+        { id: 8, name: "Sói Đêm", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d", cover: "https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d", game: "CS2", rank: "Global Elite", price: "55.000", rating: 4.7, rentals: 310, views: "4.4k", responseTime: "4 phút", status: "Sẵn sàng", online: true, gender: "Nam", tags: ["Try hard", "Nghiêm túc"] },
+        { id: 9, name: "Ken Pro", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d", cover: "https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d", game: "Valorant", rank: "Radiant", price: "80.000", rating: 4.9, rentals: 245, views: "3.1k", responseTime: "2 phút", status: "Sẵn sàng", online: true, gender: "Nam", tags: ["Radiant", "Gánh team"] },
+        { id: 10, name: "Nam TryHard", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d", cover: "https://lh3.googleusercontent.com/aida/AP1WRLt68JX6PVNpwV2wncxOVqRbS-ofPtE4blDeChXi60lXFR-JVQxXGBa9WFaGIDfw9jN-GOU7rm7UJqy-AmRb8i2qj-YoHcrWESZ3Fj4-Tf9Su-HF1zglx1kYCNPpZSzVZgUj0qa8DUlKdXef-SKGTc02ar7nRm8xTDxW-fynAQaeAqWPSg1PmoC0pjCeUlA0w-sGj17XGTolSWCh3I3QauAQGlaJ4kWuNFHwoSq2VDcWr6C8DVy1nqsJHZ-d", game: "LoL", rank: "Master", price: "40.000", rating: 4.5, rentals: 120, views: "2.5k", responseTime: "10 phút", status: "Bận", online: false, gender: "Nam", tags: ["Top lane"] },
+        { id: 11, name: "Bae Milk", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc", cover: "https://lh3.googleusercontent.com/aida/AP1WRLvII5ATfj5AaR0A6MystL2RCTulEGIm9HMYKT-QHAJbilpV-Bz_qARjYUYnzz5VCEyBlLcfuT0yvhVAPJhYpQ_623F5N2IVwgW2kP1N-xIrxgUosfudAOcJYo0oSvqbTg-FZ_Sxu0Fhtfp3CkyY8IJ9We0YU7387g34KZf702kof0TPO4hISzVWIO5giHOtknDF0lZsCx459R8w4IHH3deSAqtz-c8dbIGFN3PQhXyvcsRD2XJoHQJARutc", game: "Genshin Impact", rank: "AR 60", price: "30.000", rating: 4.8, rentals: 88, views: "1.1k", responseTime: "2 phút", status: "Sẵn sàng", online: true, gender: "Nữ", tags: ["Exploration", "Chill"] },
+        { id: 12, name: "No Sweet", avatar: "https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p", cover: "https://lh3.googleusercontent.com/aida/AP1WRLtIHQMGMGsPKlaywHMO4-qxSZdYzCB6lTknEY4sLAODA9WsOci33kvAvE6BTT7E7RrqKXrJTkKsQDkv1XpaF9pjM0QR0T_3IUAuDhhECPBHRPzF8ahYoiJ-0kOCEXH55P_8pr1_IU5bslQTCplgBvXgglDT4N2KxSzfM9WJPfKvDTzlrUc-D03tk_yy-i_wzwblxDLmUM9IMoQsBupE63n_D6b45Ez9PJ1d4Wb2ZNEKOlQz1TD1UaY0GJ8p", game: "Arena of Valor", rank: "Chiến Tướng", price: "45.000", rating: 4.9, rentals: 420, views: "6.7k", responseTime: "1 phút", status: "Hot", online: true, gender: "Nữ", tags: ["Jungle", "Fast hand"] }
+    ];
+
+    function getStatusConfig(status) {
+        switch(status) {
+            case 'Sẵn sàng': return { color: 'text-green-500', bg: 'bg-green-100' };
+            case 'Hot': return { color: 'text-primary', bg: 'bg-primary/10' };
+            case 'Đang được thuê': return { color: 'text-orange-500', bg: 'bg-orange-100' };
+            case 'Bận': return { color: 'text-gray-500', bg: 'bg-gray-100' };
+            default: return { color: 'text-gray-500', bg: 'bg-gray-100' };
+        }
+    }
+
+    function renderHotPlayers() {
+        const container = document.getElementById('hot-carousel');
+        container.innerHTML = players.map(p => {
+            const statusCfg = getStatusConfig(p.status);
+            return `
+                <div class="flex-none w-[220px] md:w-[280px] player-card bg-white rounded-[22px] overflow-hidden shadow-sm transition-all duration-300 group cursor-pointer">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden">
+                        <img src="${p.cover}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="${p.name}">
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded-lg text-[10px] text-white font-bold">LV.99</div>
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 ${statusCfg.bg} ${statusCfg.color} rounded-full text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full ${p.online ? 'bg-green-500' : 'bg-gray-400'}"></span>
+                            ${p.status}
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="${p.avatar}" class="w-8 h-8 rounded-full border-2 border-primary/20 object-cover">
+                            <div class="overflow-hidden">
+                                <h4 class="font-bold text-sm truncate">${p.name}</h4>
+                                <p class="text-[10px] text-on-surface-variant font-medium">${p.game} • ${p.rank}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-primary font-bold text-sm">${p.price}đ/giờ</div>
+                            <div class="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                                <span class="material-symbols-outlined text-[14px]">star</span>
+                                ${p.rating}
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 mb-4">
+                            ${p.tags.map(t => `<span class="px-2 py-0.5 bg-surface-container rounded text-[9px] font-bold text-on-surface-variant uppercase">${t}</span>`).join('')}
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openBookingModal(${p.id})" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95">Thuê ngay</button>
+                            <button class="px-3 py-2 bg-surface-container text-on-surface-variant rounded-xl text-xs font-bold hover:bg-surface-container-high transition-all"><span class="material-symbols-outlined text-[18px]">person</span></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderReadyGrid() {
+        const container = document.getElementById('ready-grid');
+        const readyPlayers = players.filter(p => p.status === 'Sẵn sàng' || p.status === 'Hot' || p.online);
+        container.innerHTML = readyPlayers.map(p => {
+            const statusCfg = getStatusConfig(p.status);
+            return `
+                <div class="flex items-center gap-4 bg-white p-3 rounded-2xl border border-outline-variant/30 hover:border-primary/50 transition-all cursor-pointer group">
+                    <div class="relative flex-none">
+                        <img src="${p.avatar}" class="w-14 h-14 rounded-xl object-cover border border-outline-variant/20">
+                        <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 border-2 border-white rounded-full ${p.online ? 'bg-green-500' : 'bg-gray-300'}"></span>
+                    </div>
+                    <div class="flex-grow overflow-hidden">
+                        <h4 class="font-bold text-sm truncate">${p.name}</h4>
+                        <p class="text-[11px] text-on-surface-variant">${p.game}</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-primary font-bold text-xs">${p.price}đ</span>
+                            <span class="text-[10px] ${statusCfg.color} font-bold">${p.status}</span>
+                        </div>
+                    </div>
+                    <button onclick="openBookingModal(${p.id})" class="flex-none w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-lg">add</span>
+                    </button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function scrollCarousel(id, offset) {
+        const carousel = document.getElementById(id);
+        carousel.scrollLeft += offset;
+    }
+
+    function openBookingModal(id) {
+        const p = players.find(x => x.id === id);
+        const modal = document.getElementById('bookingModal');
+        const content = document.getElementById('modalContent');
+        
+        content.innerHTML = `
+            <div class="flex justify-between items-start mb-6">
+                <div class="flex items-center gap-4">
+                    <img src="${p.avatar}" class="w-16 h-16 rounded-2xl object-cover border-2 border-primary/10">
+                    <div>
+                        <h3 class="font-bold text-lg">${p.name}</h3>
+                        <p class="text-primary font-bold">${p.price}đ/giờ</p>
+                    </div>
+                </div>
+                <button onclick="closeBookingModal()" class="text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl">
+                    <span class="text-sm font-semibold">Trạng thái</span>
+                    <span class="text-sm font-bold text-green-500">${p.status}</span>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-on-surface-variant uppercase mb-2 ml-1">Chọn thời gian thuê</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="time-btn py-3 border-2 border-outline-variant rounded-2xl font-bold text-sm hover:border-primary transition-all active:bg-primary/5">1 Giờ</button>
+                        <button class="time-btn py-3 border-2 border-primary bg-primary/5 rounded-2xl font-bold text-sm text-primary">2 Giờ</button>
+                        <button class="time-btn py-3 border-2 border-outline-variant rounded-2xl font-bold text-sm hover:border-primary transition-all active:bg-primary/5">3 Giờ</button>
+                    </div>
+                </div>
+                
+                <div class="pt-4">
+                    <button class="w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/30 hover:brightness-110 active:scale-95 transition-all">Xác nhận thuê</button>
+                </div>
+                <p class="text-[10px] text-center text-on-surface-variant">Phản hồi trung bình: ${p.responseTime}</p>
+            </div>
+        `;
+        
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBookingModal() {
+        document.getElementById('bookingModal').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    // Initialize
+    renderHotPlayers();
+    renderReadyGrid();
+
+    // Filter interaction simulation
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('bg-primary', 'text-white', 'font-bold', 'shadow-md', 'shadow-primary/20');
+                b.classList.add('border', 'border-outline-variant', 'text-on-surface-variant');
+            });
+            btn.classList.remove('border', 'border-outline-variant', 'text-on-surface-variant');
+            btn.classList.add('bg-primary', 'text-white', 'font-bold', 'shadow-md', 'shadow-primary/20');
+        });
+    });
+</script>
+
+
+</body></html>
