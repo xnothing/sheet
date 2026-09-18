@@ -64,12 +64,16 @@
 <!-- Compact Menu Items -->
 <nav class="hidden md:flex items-center gap-7 text-sm font-medium">
 <a class="text-white hover:text-[#f59e0b] transition-colors" href="#trang-chu">Trang Chủ</a>
+<a class="text-gray-300 hover:text-[#f59e0b] transition-colors" href="#mon-phai">Môn Phái</a>
 <a class="text-gray-300 hover:text-[#f59e0b] transition-colors" href="#tinh-nang">Tính Năng</a>
 <a class="text-gray-300 hover:text-[#f59e0b] transition-colors" href="#tin-tuc">Tin Tức</a>
 <a class="text-gray-300 hover:text-[#f59e0b] transition-colors" href="#cong-dong">Cộng Đồng</a>
 </nav>
 <!-- Action Buttons -->
 <div class="flex items-center gap-3">
+<!--a class="hidden sm:inline-flex px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-300 hover:text-white rounded-md border border-white/10 hover:border-[#f59e0b]/40 transition-all" href="#nap-the">
+          Nạp Thẻ
+        </a-->
 <a class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black bg-[#f59e0b] hover:bg-[#fbbf24] rounded-md shadow-[0_0_15px_rgba(245,158,11,0.25)] transition-all" href="#tai-game">
 <span class="material-symbols-outlined text-[16px]">download</span>
           Tải Game
@@ -90,7 +94,7 @@
 <!-- Minimal Server Pill -->
 <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-xs text-gray-300 mb-6">
 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-<span>Máy Chủ Mới: <strong class="text-white">S1 - HÙNG VƯƠNG</strong></span>
+<span class="">Máy Chủ Mới: <strong class="text-white">S1 - HÙNG VƯƠNG</strong></span>
 <span class="text-gray-500">•</span>
 <span class="text-[#f59e0b]">Tặng Quà Tân Thủ 2.000.000đ</span>
 </div>
@@ -128,7 +132,7 @@
 <span class="material-symbols-outlined text-sm text-sky-400 group-hover:scale-110 transition-transform">phone_iphone</span>
 <div class="text-left leading-tight">
 <span class="block text-xs font-semibold text-white">iOS</span>
-<span class="block text-[10px] text-gray-400">Tại Testflight</span>
+<span class="block text-[10px] text-gray-400">tại Testflight</span>
 </div>
 </a>
 <a class="flex items-center justify-center gap-2 py-2 px-3 rounded-lg hover:bg-white/5 transition-colors group" href="#">
@@ -174,68 +178,92 @@
           Mỗi phái tương ứng một hành bản mệnh, xây dựng phong cách chiến đấu riêng biệt.
         </p>
 </div>
-<!-- Compact Tabs -->
-<div class="flex flex-wrap justify-center gap-2 mb-8" id="sect-tab-bar">
-<button class="sect-nav active px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#f59e0b] text-black transition-all" data-target="kiem-khach" onclick="selectSect('kiem-khach')">
-          Kiếm Khách (Kim)
-        </button>
-<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/5 text-gray-300 subtle-border transition-all" data-target="dao-khach" onclick="selectSect('dao-khach')">
-          Đao Khách (Hỏa)
-        </button>
-<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/5 text-gray-300 subtle-border transition-all" data-target="cung-thu" onclick="selectSect('cung-thu')">
-          Cung Thủ (Mộc)
-        </button>
-<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/5 text-gray-300 subtle-border transition-all" data-target="phap-su" onclick="selectSect('phap-su')">
-          Pháp Sư (Thủy)
-        </button>
-<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/5 text-gray-300 subtle-border transition-all" data-target="quyen-su" onclick="selectSect('quyen-su')">
-          Quyền Sư (Thổ)
-        </button>
+<!-- 5 Tab Buttons -->
+<div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8" id="sect-tab-bar">
+<button class="sect-nav active px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#f59e0b] text-black shadow-[0_0_12px_rgba(245,158,11,0.3)] border border-[#f59e0b] transition-all cursor-pointer" data-target="kiem-khach" onclick="switchSect('kiem-khach')" type="button">
+    Kiếm Khách (Kim)
+  </button>
+<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/10 text-gray-300 subtle-border hover:border-[#f59e0b]/50 transition-all cursor-pointer" data-target="chien-binh" onclick="switchSect('chien-binh')" type="button">
+    Chiến Binh (Hỏa)
+  </button>
+<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/10 text-gray-300 subtle-border hover:border-[#f59e0b]/50 transition-all cursor-pointer" data-target="dau-si" onclick="switchSect('dau-si')" type="button">
+    Đấu Sĩ (Thổ)
+  </button>
+<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/10 text-gray-300 subtle-border hover:border-[#f59e0b]/50 transition-all cursor-pointer" data-target="phap-su" onclick="switchSect('phap-su')" type="button">
+    Pháp Sư (Thủy)
+  </button>
+<button class="sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/10 text-gray-300 subtle-border hover:border-[#f59e0b]/50 transition-all cursor-pointer" data-target="cung-thu" onclick="switchSect('cung-thu')" type="button">
+    Cung Thủ (Mộc)
+  </button>
 </div>
 <!-- Clean Display Card -->
-<div class="bg-[#16161a] rounded-xl subtle-border p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+<div class="bg-[#16161a] rounded-xl subtle-border p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-2xl transition-all">
 <!-- Visual Column -->
-<div class="md:col-span-5 relative rounded-lg overflow-hidden h-64 sm:h-72 bg-[#0e0e10] flex items-center justify-center">
-<img alt="Môn Phái" class="w-full h-full object-cover object-top opacity-90 transition-all duration-300" id="sect-card-img" src="https://lh3.googleusercontent.com/aida/AEtjO1VS9eeX7i_khCBLW9lcKG389bYHqAb8AVpg3oKN_V33mNIoHWUVpCXcSq0Gdm1VxbiRKJgwhP-5ldxqZ-7F_-V2iyBY7VbPf6QucCKG5PzTwsApufervQN7iAz8jdu-aUTiKmAeDaH1S4uhhjRH4-dZ0BUziQc2FzG2Ou7BmE2dKHftel1RKxSRzzID0bAj_0v1gU-YpYVGXENamuSyR8KHbxeiAPa5wZC9YhUB_yzTI1VCJyaP6-L68d4"/>
+<div class="md:col-span-5 relative rounded-lg overflow-hidden h-64 sm:h-80 bg-[#0e0e10] flex items-center justify-center border border-white/5">
+<img alt="Môn Phái" class="w-full h-full object-cover object-center opacity-90 transition-all duration-300" id="sect-card-img" src="https://lh3.googleusercontent.com/aida/AEtjO1VS9eeX7i_khCBLW9lcKG389bYHqAb8AVpg3oKN_V33mNIoHWUVpCXcSq0Gdm1VxbiRKJgwhP-5ldxqZ-7F_-V2iyBY7VbPf6QucCKG5PzTwsApufervQN7iAz8jdu-aUTiKmAeDaH1S4uhhjRH4-dZ0BUziQc2FzG2Ou7BmE2dKHftel1RKxSRzzID0bAj_0v1gU-YpYVGXENamuSyR8KHbxeiAPa5wZC9YhUB_yzTI1VCJyaP6-L68d4"/>
 <div class="absolute inset-0 bg-gradient-to-t from-[#16161a] via-transparent to-transparent"></div>
-<span class="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded bg-[#0e0e10]/80 text-[#f59e0b] subtle-border" id="sect-badge">
-            Hệ Kim • Cận Chiến
-          </span>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between px-3 py-1.5 rounded bg-black/60 backdrop-blur-sm border border-white/10 text-xs">
+<span class="text-gray-300 flex items-center gap-1.5 font-medium"><span class="material-symbols-outlined text-[16px] text-[#f59e0b]">shield</span>Hình Mẫu Môn Phái</span>
+<span class="text-[#f59e0b] font-semibold text-[11px]" id="sect-element-badge">Ngũ Hành Tương Khắc</span>
+</div>
 </div>
 <!-- Content Column -->
 <div class="md:col-span-7 flex flex-col justify-center">
-<div class="flex items-center justify-between">
-<h3 class="text-xl font-bold text-white uppercase" id="sect-name">Kiếm Khách</h3>
-<span class="text-xs text-[#f59e0b] font-medium" id="sect-prop">Binh Khí: Đơn Kiếm</span>
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<h3 class="text-xl sm:text-2xl font-bold text-white uppercase tracking-wide" id="sect-name">Kiếm Khách</h3>
+<span class="text-[11px] font-bold px-2.5 py-0.5 rounded bg-[#f59e0b]/15 text-[#f59e0b] border border-[#f59e0b]/30" id="sect-badge">Hệ Kim • Cận Chiến</span>
 </div>
-<p class="text-xs sm:text-sm text-gray-400 mt-3 leading-relaxed" id="sect-desc">
-            Kiếm Khách am hiểu đạo lý lấy tĩnh chế động. Đòn đánh có độ chính xác cực cao, tốc độ xuất chiêu chớp nhoáng và khả năng dồn sát thương bạo kích hạ gục đối thủ bất ngờ.
-          </p>
-<!-- Clean Stat Metrics -->
-<div class="grid grid-cols-2 gap-4 my-5 bg-[#0e0e10]/60 p-4 rounded-lg">
-<div>
-<div class="flex justify-between text-xs mb-1 text-gray-300">
-<span>Tấn Công</span>
-<span class="text-[#f59e0b] font-bold" id="stat-val-atk">95%</span>
+<span class="text-xs text-amber-200/90 font-medium bg-white/5 px-2.5 py-1 rounded border border-white/10" id="sect-prop">Vũ Khí: Kiếm Thuần Việt</span>
 </div>
-<div class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-<div class="h-full bg-[#f59e0b] rounded-full" id="stat-bar-atk" style="width: 95%"></div>
+<p class="text-xs sm:text-sm text-gray-300 mt-3 leading-relaxed min-h-[58px]" id="sect-desc">
+    Thuộc hệ Kim, với nguồn sinh lực dồi dào và khả năng cận chiến tốt, Kiếm Khách luôn là sự chọn lựa cho người mới bắt đầu. Điểm nổi bật của Kiếm Khách là khả năng đánh xuyên giáp và phản đòn khiến mọi đối thủ đều phải rụt rè trước khi động thủ.
+  </p>
+<!-- Skills Area -->
+<div class="my-4 p-3.5 bg-[#0e0e10]/80 rounded-lg subtle-border">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#f59e0b]">bolt</span>Bộ Tuyệt Kỹ Võ Công
+      </span>
+<span class="text-[11px] text-[#f59e0b] font-medium" id="sect-skill-count">5 Kỹ Năng</span>
 </div>
-</div>
-<div>
-<div class="flex justify-between text-xs mb-1 text-gray-300">
-<span>Phòng Ngự</span>
-<span class="text-emerald-400 font-bold" id="stat-val-def">60%</span>
-</div>
-<div class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-<div class="h-full bg-emerald-400 rounded-full" id="stat-bar-def" style="width: 60%"></div>
-</div>
+<div class="flex flex-wrap gap-1.5" id="sect-skills-container">
+<span class="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-200">Kim tinh pháp</span>
+<span class="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-200">Lôi điện pháp</span>
+<span class="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-200">Kinh lôi bát thủ</span>
+<span class="text-[11px] px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">Hộ sát tiến (Hỗ trợ)</span>
+<span class="text-[11px] px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">Dĩ lực đáo công (Hỗ trợ)</span>
 </div>
 </div>
-<!-- Highlight Skills -->
-<div class="flex items-center gap-2 text-xs text-gray-400">
-<span class="font-semibold text-white">Tuyệt kỹ:</span>
-<span class="text-gray-300" id="sect-skills">Lôi Đình Kiếm, Vạn Kiếm Quy Tông, Kiếm Khí Hộ Thể</span>
+<!-- Stats Grid & Bars -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#0e0e10]/70 p-3 rounded-lg text-left" id="sect-stats-grid">
+<div class="p-1.5">
+<div class="flex justify-between items-center text-[11px] mb-1">
+<span class="text-gray-400" id="stat-label-1">Sinh Lực</span>
+<span class="font-bold text-[#f59e0b]" id="stat-trait-1">Dồi Dào (95/100)</span>
+</div>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#f59e0b] h-full rounded-full transition-all duration-500" id="stat-bar-1" style="width: 95%;"></div>
+</div>
+</div>
+<div class="p-1.5 sm:border-x sm:border-white/5">
+<div class="flex justify-between items-center text-[11px] mb-1">
+<span class="text-gray-400" id="stat-label-2">Cận Chiến / Phản Đòn</span>
+<span class="font-bold text-emerald-400" id="stat-trait-2">Rất Cao (90/100)</span>
+</div>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-emerald-400 h-full rounded-full transition-all duration-500" id="stat-bar-2" style="width: 90%;"></div>
+</div>
+</div>
+<div class="p-1.5">
+<div class="flex justify-between items-center text-[11px] mb-1">
+<span class="text-gray-400" id="stat-label-3">Đặc Trưng</span>
+<span class="font-bold text-sky-400" id="stat-trait-3">Đánh Xuyên Giáp (85/100)</span>
+</div>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-sky-400 h-full rounded-full transition-all duration-500" id="stat-bar-3" style="width: 85%;"></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -294,7 +322,57 @@
 </section>
 <!-- TIN TỨC & CỘNG ĐỒNG (STREAMLINED COMBINED SECTION) -->
 <section class="max-w-5xl mx-auto px-5 py-16 border-t border-white/5" id="tin-tuc">
-
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<!-- News Column (7 cols) -->
+<div class="lg:col-span-7 flex flex-col">
+<div class="flex items-center justify-between mb-6">
+<div>
+<span class="text-xs font-semibold tracking-widest text-[#f59e0b] uppercase">Bản Tin</span>
+<h2 class="text-xl font-bold text-white uppercase mt-0.5">Tin Tức &amp; Sự Kiện</h2>
+</div>
+<a class="text-xs text-[#f59e0b] hover:underline flex items-center gap-1" href="#">
+              Xem tất cả <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</a>
+</div>
+<div class="space-y-3">
+<a class="block bg-[#16161a] p-4 rounded-lg subtle-border hover:border-white/20 transition-all group" href="#">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 uppercase">Sự Kiện</span>
+<span class="text-[11px] text-gray-500">15/10/2024</span>
+</div>
+<h4 class="text-sm font-semibold text-gray-200 group-hover:text-[#f59e0b] transition-colors leading-snug">
+                Đua Top Khai Mở S1 Hùng Vương - Nhận Thú Cưỡi Kỳ Lân &amp; Quà Công Nghệ
+              </h4>
+<p class="text-xs text-gray-400 mt-1 line-clamp-1">
+                Chuỗi sự kiện đua top lực chiến, đẳng cấp và bang hội toàn máy chủ nhận bảo vật không khóa.
+              </p>
+</a>
+<a class="block bg-[#16161a] p-4 rounded-lg subtle-border hover:border-white/20 transition-all group" href="#">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#f59e0b]/20 text-[#f59e0b] uppercase">Thông Báo</span>
+<span class="text-[11px] text-gray-500">Hôm nay</span>
+</div>
+<h4 class="text-sm font-semibold text-gray-200 group-hover:text-[#f59e0b] transition-colors leading-snug">
+                Bảo trì định kỳ nâng cấp máy chủ &amp; tối ưu hóa đường truyền liên server
+              </h4>
+<p class="text-xs text-gray-400 mt-1 line-clamp-1">
+                Đảm bảo trải nghiệm mượt mà, không giật lag cho hàng chục ngàn đại hiệp cùng giao tranh.
+              </p>
+</a>
+<a class="block bg-[#16161a] p-4 rounded-lg subtle-border hover:border-white/20 transition-all group" href="#">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 uppercase">Cẩm Nang</span>
+<span class="text-[11px] text-gray-500">12/10/2024</span>
+</div>
+<h4 class="text-sm font-semibold text-gray-200 group-hover:text-[#f59e0b] transition-colors leading-snug">
+                Bí kíp tân thủ: Lộ trình tăng cấp nhanh từ 1 đến 60 chỉ trong 24 giờ
+              </h4>
+<p class="text-xs text-gray-400 mt-1 line-clamp-1">
+                Hướng dẫn chi tiết cách hoàn thành chuỗi nhiệm vụ chính tuyến và phối hợp đồ ngũ hành hiệu quả.
+              </p>
+</a>
+</div>
+</div>
 <!-- Community Column (5 cols) -->
 <div class="lg:col-span-5 flex flex-col justify-between" id="cong-dong">
 <div>
@@ -332,7 +410,7 @@
 <!-- Bottom micro badge -->
 <div class="mt-6 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 text-xs text-gray-400">
 <span class="material-symbols-outlined text-[16px] text-[#f59e0b]">verified_user</span>
-<span>Trò chơi được hỗ trợ và vận hành 24/7.</span>
+<span class="">Trò chơi được hỗ trợ và vận hành 24/7.</span>
 </div>
 </div>
 </div>
@@ -356,90 +434,194 @@
 </div>
 <div class="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-gray-500 text-[11px] leading-relaxed">
 <div>
-<p>© 2026 Anh Hùng Tranh Bá.</p>
+<p class="">© 2026 Anh Hùng Tranh Bá. Bản quyền thuộc TeaMobi Game Studio.</p>
 </div>
 <div class="flex items-center gap-2">
 <span class="px-1.5 py-0.5 rounded border border-gray-700 text-gray-400 text-[10px] font-bold">18+</span>
-<span>Chơi quá 180 phút một ngày sẽ ảnh hưởng xấu đến sức khỏe.</span>
+<span class="">Chơi quá 180 phút một ngày sẽ ảnh hưởng xấu đến sức khỏe.</span>
 </div>
 </div>
 </div>
 </footer>
-<!-- MINIMAL SCRIPT FOR SECT SWITCHER -->
+<!-- COMPLETE SECT SWITCHER INTERACTION SCRIPT -->
 <script>
-    const sects = {
-      'kiem-khach': {
-        name: 'Kiếm Khách',
-        badge: 'Hệ Kim • Cận Chiến',
-        weapon: 'Binh Khí: Đơn Kiếm',
-        desc: 'Kiếm Khách am hiểu đạo lý lấy tĩnh chế động. Đòn đánh có độ chính xác cực cao, tốc độ xuất chiêu chớp nhoáng và khả năng dồn sát thương bạo kích hạ gục đối thủ bất ngờ.',
-        atk: '95%',
-        def: '60%',
-        skills: 'Lôi Đình Kiếm, Vạn Kiếm Quy Tông, Kiếm Khí Hộ Thể'
-      },
-      'dao-khach': {
-        name: 'Đao Khách',
-        badge: 'Hệ Hỏa • Tiên Phong',
-        weapon: 'Binh Khí: Đại Đao',
-        desc: 'Tấm khiên vững chãi trong mọi đợt càn quét. Sở hữu lượng sinh lực dồi dào, phòng ngự cực đại và các đòn quét diện rộng áp đảo hàng ngũ kẻ thù.',
-        atk: '85%',
-        def: '95%',
-        skills: 'Liệt Hỏa Trảm, Cuồng Bạo Quyết, Kim Cang Giáp'
-      },
-      'cung-thu': {
-        name: 'Cung Thủ',
-        badge: 'Hệ Mộc • Tầm Xa',
-        weapon: 'Binh Khí: Thần Cơ Cung',
-        desc: 'Bậc thầy tác chiến từ khoảng cách xa. Di chuyển linh hoạt, giăng bẫy kiểm soát đối thủ và hạ gục mục tiêu bằng những mũi tên xuyên giáp chuẩn xác.',
-        atk: '90%',
-        def: '50%',
-        skills: 'Bách Bộ Xuyên Dương, Hàn Băng Tiễn, Phi Diệp Trận'
-      },
-      'phap-su': {
-        name: 'Pháp Sư',
-        badge: 'Hệ Thủy • Phép Thuật',
-        weapon: 'Binh Khí: Pháp Trượng',
-        desc: 'Thao túng sức mạnh huyền bí của trời đất. Gây sát thương ma pháp trên phạm vi rộng lớn kết hợp hiệu ứng đóng băng khống chế và hồi phục toàn đội ngũ.',
-        atk: '92%',
-        def: '55%',
-        skills: 'Băng Vũ Càn Khôn, Thủy Long Trảm, Trị Liệu Phổ Độ'
-      },
-      'quyen-su': {
-        name: 'Quyền Sư',
-        badge: 'Hệ Thổ • Khống Chế',
-        weapon: 'Binh Khí: Quyền Giáp',
-        desc: 'Tu luyện thể phách cứng như kim thạch. Áp sát cực nhanh, các thế võ cận chiến liên hoàn kèm khả năng phản sát thương đẩy lùi mọi kẻ địch đối diện.',
-        atk: '80%',
-        def: '90%',
-        skills: 'Chấn Địa Quyền, Kim Cang Bất Hoại, Toái Thạch Cước'
-      }
-    };
-
-    function selectSect(key) {
-      const data = sects[key];
-      if (!data) return;
-
-      // Update Tabs styling
-      document.querySelectorAll('.sect-nav').forEach(btn => {
-        if (btn.getAttribute('data-target') === key) {
-          btn.className = 'sect-nav active px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#f59e0b] text-black transition-all';
-        } else {
-          btn.className = 'sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/5 text-gray-300 subtle-border transition-all';
-        }
-      });
-
-      // Update text content
-      document.getElementById('sect-name').textContent = data.name;
-      document.getElementById('sect-badge').textContent = data.badge;
-      document.getElementById('sect-prop').textContent = data.weapon;
-      document.getElementById('sect-desc').textContent = data.desc;
-      document.getElementById('sect-skills').textContent = data.skills;
-
-      // Update stats
-      document.getElementById('stat-val-atk').textContent = data.atk;
-      document.getElementById('stat-bar-atk').style.width = data.atk;
-      document.getElementById('stat-val-def').textContent = data.def;
-      document.getElementById('stat-bar-def').style.width = data.def;
+  const sectsData = {
+    'kiem-khach': {
+      name: 'Kiếm Khách',
+      badge: 'Hệ Kim • Cận Chiến',
+      badgeClass: 'text-[#f59e0b] bg-[#f59e0b]/15 border-[#f59e0b]/30',
+      weapon: 'Vũ Khí: Kiếm Thuần Việt',
+      desc: 'Thuộc hệ Kim, với nguồn sinh lực dồi dào và khả năng cận chiến tốt, Kiếm Khách luôn là sự chọn lựa cho người mới bắt đầu. Điểm nổi bật của Kiếm Khách là khả năng đánh xuyên giáp và phản đòn khiến mọi đối thủ đều phải rụt rè trước khi động thủ.',
+      skills: [
+        { name: 'Kim tinh pháp', support: false },
+        { name: 'Lôi điện pháp', support: false },
+        { name: 'Kinh lôi bát thủ', support: false },
+        { name: 'Hộ sát tiến (Hỗ trợ)', support: true },
+        { name: 'Dĩ lực đáo công (Hỗ trợ)', support: true }
+      ],
+      labels: ['Sinh Lực', 'Cận Chiến / Phản Đòn', 'Đặc Trưng'],
+      traits: ['Dồi Dào (95/100)', 'Rất Cao (90/100)', 'Đánh Xuyên Giáp (85/100)'],
+      values: ['95%', '90%', '85%'],
+      colors: ['bg-[#f59e0b]', 'bg-emerald-400', 'bg-sky-400'],
+      textColors: ['text-[#f59e0b]', 'text-emerald-400', 'text-sky-400'],
+      elementText: 'Hệ Kim: Khắc Mộc - Sinh Thủy'
+    },
+    'chien-binh': {
+      name: 'Chiến Binh',
+      badge: 'Hệ Hỏa • Tiên Phong',
+      badgeClass: 'text-rose-400 bg-rose-500/15 border-rose-500/30',
+      weapon: 'Vũ Khí: Trường Đao',
+      desc: 'Thuộc hệ Hỏa, là hiện thân của sức mạnh, trong những trận giáp lá cà họ có thể kết liễu đối phương ngay khi bị thương rất nặng. Và chắc chắn một điều với trường đao trong tay chiến binh luôn là nhân vật đi đầu trong những trận chiến sinh tử.',
+      skills: [
+        { name: 'Hỏa kinh thiên', support: false },
+        { name: 'Nhất hỏa long', support: false },
+        { name: 'Bát đại hỏa long', support: false },
+        { name: 'Hộ công tiến (Hỗ trợ)', support: true },
+        { name: 'Cường thân giáp (Hỗ trợ)', support: true }
+      ],
+      labels: ['Sức Mạnh / Công', 'Giáp Lá Cà', 'Đặc Trưng'],
+      traits: ['Tuyệt Đỉnh (98/100)', 'Bất Bại (92/100)', 'Đoạt Mệnh Khi Trọng Thương'],
+      values: ['98%', '92%', '96%'],
+      colors: ['bg-rose-500', 'bg-amber-400', 'bg-orange-500'],
+      textColors: ['text-rose-400', 'text-amber-400', 'text-orange-400'],
+      elementText: 'Hệ Hỏa: Khắc Kim - Sinh Thổ'
+    },
+    'dau-si': {
+      name: 'Đấu Sĩ',
+      badge: 'Hệ Thổ • Phòng Thủ / Trảm Kích',
+      badgeClass: 'text-amber-500 bg-amber-500/15 border-amber-500/30',
+      weapon: 'Vũ Khí: Cự Phủ / Thiết Trượng',
+      desc: 'Thuộc hệ Thổ, sở hữu thân thể cường tráng với giáp trụ dầy và khả năng phòng thủ cao đây là nhân vật chịu đòn cận chiến tốt nhất. Tuy chậm chạp do ảnh hưởng bởi giáp trụ nhưng bù lại mức sát thương của vũ khí mà đấu sĩ sử dụng luôn thuộc hàng cao nhất.',
+      skills: [
+        { name: 'Thổ tú', support: false },
+        { name: 'Kim sơn thủy', support: false },
+        { name: 'Khổng kình bát vĩ', support: false },
+        { name: 'Hộ thủ tiến (Hỗ trợ)', support: true },
+        { name: 'Bất di biến', support: true }
+      ],
+      labels: ['Phòng Thủ / Giáp', 'Sát Thương Vũ Khí', 'Đặc Trưng'],
+      traits: ['Bất Hoại (99/100)', 'Cực Đại (95/100)', 'Siêu Chịu Đòn Cận Chiến'],
+      values: ['99%', '95%', '97%'],
+      colors: ['bg-amber-500', 'bg-orange-400', 'bg-yellow-400'],
+      textColors: ['text-amber-400', 'text-orange-400', 'text-yellow-400'],
+      elementText: 'Hệ Thổ: Khắc Thủy - Sinh Kim'
+    },
+    'phap-su': {
+      name: 'Pháp Sư',
+      badge: 'Hệ Thủy • Khống Chế / Hỗ Trợ',
+      badgeClass: 'text-sky-400 bg-sky-500/15 border-sky-500/30',
+      weapon: 'Vũ Khí: Thần Trượng Phép Thuật',
+      desc: 'Thuộc hệ Thủy, là nhân vật có thể chất yếu nhưng bù lại sức mạnh tinh thần của nhân vật này cực kỳ lợi hại. Mọi người đều e ngại trước sức mạnh phép thuật của Pháp Sư, nhiều đối thủ đã bất ngờ bị chìm đắm như một con tàu trong biển nước trước khi chạm đến Pháp Sư. Và với nhiều khả năng hỗ trợ thì đây là nhân vật không thể thiếu trong tất cả các trận chiến.',
+      skills: [
+        { name: 'Thủy giáng sinh', support: false },
+        { name: 'Thần long thủy', support: false },
+        { name: 'Bát đại hải long', support: false },
+        { name: 'Hồi lực tiến (Hỗ trợ)', support: true },
+        { name: 'Hồi công lực đan (Hỗ trợ)', support: true },
+        { name: 'Hồi sinh (Hỗ trợ)', support: true },
+        { name: 'Song công hộ thủ (Hỗ trợ)', support: true }
+      ],
+      labels: ['Sức Mạnh Tinh Thần', 'Khống Chế / Hỗ Trợ', 'Đặc Trưng'],
+      traits: ['Uy Lực (96/100)', 'Vô Song (98/100)', 'Hồi Sinh & Ma Pháp Biển'],
+      values: ['96%', '98%', '94%'],
+      colors: ['bg-sky-400', 'bg-cyan-400', 'bg-blue-500'],
+      textColors: ['text-sky-400', 'text-cyan-400', 'text-blue-400'],
+      elementText: 'Hệ Thủy: Khắc Hỏa - Sinh Mộc'
+    },
+    'cung-thu': {
+      name: 'Cung Thủ',
+      badge: 'Hệ Mộc • Tầm Xa / Bạo Kích Độc',
+      badgeClass: 'text-emerald-400 bg-emerald-500/15 border-emerald-500/30',
+      weapon: 'Vũ Khí: Thần Cung Tiễn Pháp',
+      desc: 'Thuộc hệ Mộc, nhanh nhẹn trong di chuyển và khả năng dứt điểm từ xa chính xác, cùng với đó là khả năng sử dụng độc tố, tất cả yếu tố đó sẽ hợp thành những đòn chí mạng cho đối phương. Sức mạnh của Cung Thủ làm sửng sốt tất cả các đối thủ cận chiến, khiến họ phải đề phòng cẩn thận hơn trong khi giao chiến.',
+      skills: [
+        { name: 'Nhất hồn tiễn', support: false },
+        { name: 'Phi thiên tiễn', support: false },
+        { name: 'Bát kim tiễn đáo', support: false },
+        { name: 'Hộ độc tiễn (Hỗ trợ)', support: true },
+        { name: 'Độc lưu tiễn (Hỗ trợ)', support: true }
+      ],
+      labels: ['Thân Pháp / Tốc Độ', 'Tầm Xa / Độc Tố', 'Đặc Trưng'],
+      traits: ['Thần Tốc (97/100)', 'Chí Mạng (94/100)', 'Dứt Điểm Chuẩn Xác & Độc Sát'],
+      values: ['97%', '94%', '95%'],
+      colors: ['bg-emerald-400', 'bg-teal-400', 'bg-green-400'],
+      textColors: ['text-emerald-400', 'text-teal-400', 'text-green-400'],
+      elementText: 'Hệ Mộc: Khắc Thổ - Sinh Hỏa'
     }
-  </script>
+  };
+
+  function switchSect(key) {
+    const data = sectsData[key];
+    if (!data) return;
+
+    // 1. Update tab button styles
+    document.querySelectorAll('.sect-nav').forEach(btn => {
+      const target = btn.getAttribute('data-target');
+      if (target === key) {
+        btn.className = 'sect-nav active px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#f59e0b] text-black shadow-[0_0_15px_rgba(245,158,11,0.35)] border border-[#f59e0b] transition-all cursor-pointer';
+      } else {
+        btn.className = 'sect-nav px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-[#16161a] hover:bg-white/10 text-gray-300 subtle-border hover:border-[#f59e0b]/50 transition-all cursor-pointer';
+      }
+    });
+
+    // 2. Update basic info
+    const nameEl = document.getElementById('sect-name');
+    const badgeEl = document.getElementById('sect-badge');
+    const propEl = document.getElementById('sect-prop');
+    const descEl = document.getElementById('sect-desc');
+    const elemBadge = document.getElementById('sect-element-badge');
+
+    if (nameEl) nameEl.textContent = data.name;
+    if (propEl) propEl.textContent = data.weapon;
+    if (descEl) descEl.textContent = data.desc;
+    if (elemBadge) elemBadge.textContent = data.elementText;
+
+    if (badgeEl) {
+      badgeEl.textContent = data.badge;
+      badgeEl.className = 'text-[11px] font-bold px-2.5 py-0.5 rounded border transition-colors ' + data.badgeClass;
+    }
+
+    // 3. Update skills list
+    const skillCountEl = document.getElementById('sect-skill-count');
+    const skillsContainer = document.getElementById('sect-skills-container');
+    if (skillCountEl) skillCountEl.textContent = data.skills.length + ' Kỹ Năng';
+    if (skillsContainer) {
+      skillsContainer.innerHTML = data.skills.map(s => {
+        if (s.support) {
+          return '<span class="text-[11px] px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 font-medium">' + s.name + '</span>';
+        } else {
+          return '<span class="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-200">' + s.name + '</span>';
+        }
+      }).join('');
+    }
+
+    // 4. Update stats traits, labels, and progress bars
+    for (let i = 0; i < 3; i++) {
+      const lbl = document.getElementById('stat-label-' + (i + 1));
+      const val = document.getElementById('stat-trait-' + (i + 1));
+      const bar = document.getElementById('stat-bar-' + (i + 1));
+
+      if (lbl) lbl.textContent = data.labels[i];
+      if (val) {
+        val.textContent = data.traits[i];
+        val.className = 'font-bold ' + data.textColors[i];
+      }
+      if (bar) {
+        bar.style.width = data.values[i];
+        bar.className = 'h-full rounded-full transition-all duration-500 ' + data.colors[i];
+      }
+    }
+  }
+
+  // Ensure tabs have direct event listeners after DOM load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.sect-nav').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('data-target');
+        if (target) switchSect(target);
+      });
+    });
+  });
+</script>
 </body></html>
